@@ -1,0 +1,104 @@
+"use client"
+
+import { useRef } from "react"
+import { Canvas, useFrame } from "@react-three/fiber"
+import { Sphere, MeshDistortMaterial } from "@react-three/drei"
+import { ArrowDown, Download, Code } from "lucide-react"
+import type * as THREE from "three"
+
+const AnimatedSphere = () => {
+  const meshRef = useRef<THREE.Mesh>(null)
+
+  useFrame((state) => {
+    if (meshRef.current) {
+      meshRef.current.rotation.x = state.clock.elapsedTime * 0.2
+      meshRef.current.rotation.y = state.clock.elapsedTime * 0.3
+    }
+  })
+
+  return (
+    <Sphere ref={meshRef} args={[1, 100, 200]} scale={2}>
+      <MeshDistortMaterial
+        color="#3b82f6"
+        attach="material"
+        distort={0.3}
+        speed={1.5}
+        roughness={0.4}
+        metalness={0.8}
+      />
+    </Sphere>
+  )
+}
+
+const HeroSection = () => {
+  return (
+    <section id="home" className="min-h-screen flex items-center justify-center relative overflow-hidden pt-20">
+      {/* Background 3D Element */}
+      <div className="absolute inset-0 opacity-20">
+        <Canvas camera={{ position: [0, 0, 5] }}>
+          <ambientLight intensity={0.5} />
+          <directionalLight position={[10, 10, 5]} intensity={1} />
+          <AnimatedSphere />
+        </Canvas>
+      </div>
+
+      {/* Background Gradients */}
+      <div className="absolute top-1/4 left-1/4 w-64 h-64 bg-blue-500/20 rounded-full blur-3xl"></div>
+      <div className="absolute bottom-1/4 right-1/4 w-80 h-80 bg-purple-500/20 rounded-full blur-3xl"></div>
+
+      <div className="container-custom relative z-10">
+        <div className="text-center">
+          <div className="glass p-8 md:p-12 rounded-3xl floating-element max-w-4xl mx-auto">
+            {/* Badge */}
+            <div className="inline-flex items-center gap-2 glass px-4 py-2 rounded-full mb-6 text-sm">
+              <div className="w-2 h-2 bg-green-500 rounded-full animate-pulse"></div>
+              <span className="text-slate-600">Available for new projects</span>
+            </div>
+
+            <h1 className="text-4xl md:text-6xl lg:text-7xl font-bold text-gradient mb-6">
+              Frontend
+              <span className="block text-gradient-accent">Developer</span>
+            </h1>
+
+            <p className="text-lg md:text-xl text-slate-600 mb-8 max-w-2xl mx-auto leading-relaxed">
+              I craft beautiful, responsive, and interactive web experiences using modern technologies. Passionate about
+              clean code, innovative design, and seamless user interactions.
+            </p>
+
+            {/* Skills Preview */}
+            <div className="flex flex-wrap justify-center gap-3 mb-8">
+              {["React", "TypeScript", "Next.js", "Tailwind CSS", "Three.js"].map((skill) => (
+                <span key={skill} className="glass px-4 py-2 rounded-full text-sm text-slate-700">
+                  {skill}
+                </span>
+              ))}
+            </div>
+
+            <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
+              <button className="glass px-8 py-4 rounded-full hover:bg-white/20 transition-all duration-300 hover:scale-105 flex items-center gap-2 group">
+                <Download size={20} className="group-hover:scale-110 transition-transform duration-300" />
+                Download Resume
+              </button>
+              <a
+                href="#projects"
+                className="glass px-8 py-4 rounded-full hover:bg-white/20 transition-all duration-300 hover:scale-105 flex items-center gap-2 group"
+              >
+                <Code size={20} className="group-hover:scale-110 transition-transform duration-300" />
+                View My Work
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* Scroll Indicator */}
+      <div className="absolute bottom-8 left-1/2 transform -translate-x-1/2 animate-bounce">
+        <div className="glass p-3 rounded-full">
+          <ArrowDown size={20} className="text-slate-600" />
+        </div>
+      </div>
+    </section>
+  )
+}
+
+export default HeroSection
