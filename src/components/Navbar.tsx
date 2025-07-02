@@ -7,14 +7,30 @@ import { Menu, X, Home, User, Code, Briefcase, Mail } from "lucide-react";
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
+  // --- NEW STATE FOR AUTO-HIDING ---
+  const [visible, setVisible] = useState(true);
+  const [lastScrollY, setLastScrollY] = useState(0);
 
   useEffect(() => {
     const handleScroll = () => {
-      setScrolled(window.scrollY > 50);
+      const currentScrollY = window.scrollY;
+      // Set scrolled state for background color change
+      setScrolled(currentScrollY > 20);
+
+      // --- NEW LOGIC FOR AUTO-HIDING ---
+      // Hide navbar when scrolling down, show when scrolling up
+      if (currentScrollY > lastScrollY && currentScrollY > 50) {
+        setVisible(false);
+      } else {
+        setVisible(true);
+      }
+      // Remember current scroll position for the next move
+      setLastScrollY(currentScrollY);
     };
+
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
-  }, []);
+  }, [lastScrollY]);
 
   const navItems = [
     { name: "Home", href: "#home", icon: Home },
@@ -24,15 +40,14 @@ const Navbar = () => {
     { name: "Contact", href: "#contact", icon: Mail },
   ];
 
-  // The new smooth scroll handler function
   const handleSmoothScroll = (e: React.MouseEvent<HTMLAnchorElement>, href: string) => {
-    e.preventDefault(); // Prevent the default anchor jump
+    e.preventDefault();
     const targetId = href.replace("#", "");
     const targetElement = document.getElementById(targetId);
     if (targetElement) {
       targetElement.scrollIntoView({
         behavior: "smooth",
-        block: "start", // Aligns the top of the section with the top of the viewport
+        block: "start",
       });
     }
   };
@@ -41,17 +56,24 @@ const Navbar = () => {
     <>
       {/* Desktop Navbar */}
       <nav
-        className={`fixed top-6 left-1/2 transform -translate-x-1/2 z-50 transition-all duration-300 ${
-          scrolled ? "glass-purple shadow-xl" : ""
-        } rounded-full px-6 py-3 hidden md:block`}
+        className={`fixed left-1/2 -translate-x-1/2 z-50 transition-all duration-500 rounded-full px-6 py-3 hidden md:block ${
+          // --- UPDATED CLASSES FOR AUTO-HIDING ---
+          // Controls visibility and position
+          visible ? "top-6" : "-top-24"
+        } ${
+          // Controls background style based on scroll position
+          scrolled ? "glass-purple shadow-xl" : "bg-white/20 backdrop-blur-md"
+        }`}
       >
         <div className="flex items-center space-x-6">
           {navItems.map((item) => (
             <a
               key={item.name}
               href={item.href}
-              onClick={(e) => handleSmoothScroll(e, item.href)} // Updated onClick
-              className="group text-black hover:text-white/80 px-3 py-2 text-sm font-medium transition-all duration-300 rounded-full hover:bg-white/10"
+              onClick={(e) => handleSmoothScroll(e, item.href)}
+              className={`group transition-all duration-300 rounded-full px-3 py-2 text-sm font-medium hover:bg-white/20 ${
+                scrolled ? "text-white" : "text-slate-700"
+              }`}
               aria-label={item.name}
             >
               <item.icon size={20} />
@@ -60,7 +82,7 @@ const Navbar = () => {
         </div>
       </nav>
 
-      {/* Mobile Navbar */}
+      {/* Mobile Navbar (auto-hiding is often not ideal for mobile menu buttons) */}
       <nav className="fixed top-6 right-6 z-50 md:hidden">
         <button
           onClick={() => setIsOpen(!isOpen)}
@@ -79,8 +101,8 @@ const Navbar = () => {
                   key={item.name}
                   href={item.href}
                   onClick={(e) => {
-                    handleSmoothScroll(e, item.href); // Updated onClick
-                    setIsOpen(false); // Also close the menu on click
+                    handleSmoothScroll(e, item.href);
+                    setIsOpen(false);
                   }}
                   className="flex items-center gap-3 text-white hover:text-white/80 px-4 py-3 text-sm font-medium transition-all duration-300 hover:bg-white/10 rounded-xl"
                 >

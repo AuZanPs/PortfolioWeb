@@ -53,7 +53,7 @@ const SkillsSection = () => {
 
         {/* Category Toggle Buttons */}
         <div className="flex justify-center mb-12">
-          <div className="glass p-2 rounded-2xl inline-flex gap-2">
+          <div className="glass p-2 rounded-2xl inline-flex gap-4">
             {categories.map((category) => (
               <button
                 key={category.key}
