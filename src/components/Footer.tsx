@@ -15,8 +15,8 @@ const Footer = () => {
   ]
 
   const stats = [
-    { icon: Code, label: "Lines of Code", value: "50K+" },
-    { icon: Coffee, label: "Cups of Coffee", value: "1.2K+" },
+    { icon: Code, label: "Lines of Code", value: "5K+" },
+    { icon: Coffee, label: "Cups of Coffee", value: "a few" },
     { icon: Zap, label: "Projects Built", value: "25+" },
     { icon: Star, label: "GitHub Stars", value: "150+" },
   ]
@@ -110,11 +110,6 @@ const Footer = () => {
         {/* Bottom Section */}
         <div className="border-t border-white/20 pt-8">
           <div className="flex flex-col md:flex-row justify-between items-center gap-4">
-            <div className="flex items-center gap-2 text-slate-600">
-              <span>Made with</span>
-              <Heart size={16} className="text-red-500 animate-pulse" />
-              <span>using Next.js, Three.js & Tailwind CSS</span>
-            </div>
             <div className="text-slate-500 text-sm">
               © {new Date().getFullYear()} Frontend Portfolio. All rights reserved.
             </div>

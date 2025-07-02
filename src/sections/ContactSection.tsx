@@ -48,9 +48,8 @@ const ContactSection = () => {
   };
 
   const contactInfo = [
-    { icon: Mail, title: "Email", value: "hello@frontend.dev", description: "Send me an email anytime!" },
-    { icon: MapPin, title: "Location", value: "San Francisco, CA", description: "Available for remote work" },
-    { icon: Phone, title: "Phone", value: "+1 (555) 123-4567", description: "Mon-Fri from 8am to 6pm" }
+    { icon: Mail, title: "Email", value: "mauzanps@gmail.com", description: "Send me an email anytime!" },
+    { icon: MapPin, title: "Location", value: "Jakarta", description: "Available for remote work" },
   ];
 
   return (

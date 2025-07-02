@@ -33,7 +33,7 @@ const AboutSection = () => {
     { icon: Code, title: "Clean Code", description: "Writing maintainable, scalable, and efficient code." },
     { icon: Palette, title: "UI/UX Design", description: "Creating beautiful and intuitive user interfaces." },
     { icon: Zap, title: "Performance", description: "Optimizing for speed and a great user experience." },
-    { icon: Users, title: "Collaboration", description: "Working effectively in teams and with stakeholders." },
+    { icon: Users, title: "Collaboration", description: "Working effectively in teams." },
   ];
 
   return (
@@ -56,10 +56,10 @@ const AboutSection = () => {
           <div className="glass p-8 rounded-2xl floating-element h-full bg-gradient-to-br from-blue-500/10 to-purple-500/10">
             <h3 className="text-2xl font-bold text-gradient-accent mb-4">My Journey</h3>
             <p className="text-slate-600 mb-4 leading-relaxed">
-              I'm a passionate Frontend Developer creating exceptional digital experiences. My journey started with a curiosity about how websites work, and it has evolved into a career focused on building innovative, user-centered solutions.
+              I'm at the beginning of my journey as a Frontend Developer, and I'm excited by the endless possibilities of the web. My focus is on honing my skills and building a strong foundation in modern web technologies. I am dedicated to writing clean code and am always eager to learn from new challenges and collaborations.
             </p>
             <p className="text-slate-600 leading-relaxed">
-              I specialize in React, TypeScript, and modern CSS frameworks, with a keen eye for design and performance.
+              My primary focus is on developing my abilities in in React, TypeScript, and modern CSS frameworks, with a keen eye for design and performance.
             </p>
           </div>
 

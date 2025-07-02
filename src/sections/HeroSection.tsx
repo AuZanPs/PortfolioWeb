@@ -1,20 +1,21 @@
-"use client"
+// src/sections/HeroSection.tsx
 
-import { useRef } from "react"
-import { Canvas, useFrame } from "@react-three/fiber"
-import { Sphere, MeshDistortMaterial } from "@react-three/drei"
-import { ArrowDown, Download, Code } from "lucide-react"
-import type * as THREE from "three"
+import { useRef } from "react";
+import type React from "react";
+import { Canvas, useFrame } from "@react-three/fiber";
+import { Sphere, MeshDistortMaterial } from "@react-three/drei";
+import { ArrowDown, Code } from "lucide-react";
+import type * as THREE from "three";
 
 const AnimatedSphere = () => {
-  const meshRef = useRef<THREE.Mesh>(null)
+  const meshRef = useRef<THREE.Mesh>(null);
 
   useFrame((state) => {
     if (meshRef.current) {
-      meshRef.current.rotation.x = state.clock.elapsedTime * 0.2
-      meshRef.current.rotation.y = state.clock.elapsedTime * 0.3
+      meshRef.current.rotation.x = state.clock.elapsedTime * 0.2;
+      meshRef.current.rotation.y = state.clock.elapsedTime * 0.3;
     }
-  })
+  });
 
   return (
     <Sphere ref={meshRef} args={[1, 100, 200]} scale={2}>
@@ -27,10 +28,23 @@ const AnimatedSphere = () => {
         metalness={0.8}
       />
     </Sphere>
-  )
-}
+  );
+};
 
 const HeroSection = () => {
+  // The smooth scroll handler function, copied from the Navbar
+  const handleSmoothScroll = (e: React.MouseEvent<HTMLAnchorElement>, href: string) => {
+    e.preventDefault(); // Prevent the default anchor jump
+    const targetId = href.replace("#", "");
+    const targetElement = document.getElementById(targetId);
+    if (targetElement) {
+      targetElement.scrollIntoView({
+        behavior: "smooth",
+        block: "start",
+      });
+    }
+  };
+
   return (
     <section id="home" className="min-h-screen flex items-center justify-center relative overflow-hidden pt-20">
       {/* Background 3D Element */}
@@ -56,31 +70,18 @@ const HeroSection = () => {
             </div>
 
             <h1 className="text-4xl md:text-6xl lg:text-7xl font-bold text-gradient mb-6">
-              Frontend
-              <span className="block text-gradient-accent">Developer</span>
+              Muhammad Auzan
+              <span className="block text-gradient-accent">Putra Siregar</span>
             </h1>
 
             <p className="text-lg md:text-xl text-slate-600 mb-8 max-w-2xl mx-auto leading-relaxed">
-              I craft beautiful, responsive, and interactive web experiences using modern technologies. Passionate about
-              clean code, innovative design, and seamless user interactions.
+              I craft beautiful, responsive, and interactive web experiences using modern technologies. Passionate about clean code, innovative design, and seamless user interactions.
             </p>
 
-            {/* Skills Preview */}
-            <div className="flex flex-wrap justify-center gap-3 mb-8">
-              {["React", "TypeScript", "Next.js", "Tailwind CSS", "Three.js"].map((skill) => (
-                <span key={skill} className="glass px-4 py-2 rounded-full text-sm text-slate-700">
-                  {skill}
-                </span>
-              ))}
-            </div>
-
             <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
-              <button className="glass px-8 py-4 rounded-full hover:bg-white/20 transition-all duration-300 hover:scale-105 flex items-center gap-2 group">
-                <Download size={20} className="group-hover:scale-110 transition-transform duration-300" />
-                Download Resume
-              </button>
               <a
                 href="#projects"
+                onClick={(e) => handleSmoothScroll(e, "#projects")} // Updated onClick
                 className="glass px-8 py-4 rounded-full hover:bg-white/20 transition-all duration-300 hover:scale-105 flex items-center gap-2 group"
               >
                 <Code size={20} className="group-hover:scale-110 transition-transform duration-300" />
@@ -98,7 +99,7 @@ const HeroSection = () => {
         </div>
       </div>
     </section>
-  )
-}
+  );
+};
 
-export default HeroSection
+export default HeroSection;
