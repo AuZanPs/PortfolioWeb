@@ -14,7 +14,7 @@ body {
   }
 
   .text-gradient {
-    @apply bg-gradient-to-r from-slate-900 via-purple-900 to-slate-900 bg-clip-text text-transparent;
+    @apply bg-gradient-to-r from-slate-900 via-purple-700 to-slate-900 bg-clip-text text-transparent;
   }
 
   .text-gradient-accent {
@@ -58,4 +58,3 @@ body {
 ::-webkit-scrollbar-thumb:hover {
   @apply bg-black/30;
 }
-

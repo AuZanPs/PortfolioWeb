@@ -30,7 +30,7 @@ const IntertwinedRings = () => {
 
 const AboutSection = () => {
   const highlights = [
-    { icon: Code, title: "Clean Code", description: "Writing maintainable, scalable, and efficient code." },
+    { icon: Code, title: "Simple Code", description: "Writing simplistic, time-efficient, and easy-to-use code." },
     { icon: Palette, title: "UI/UX Design", description: "Creating beautiful and intuitive user interfaces." },
     { icon: Zap, title: "Performance", description: "Optimizing for speed and a great user experience." },
     { icon: Users, title: "Collaboration", description: "Working effectively in teams." },
@@ -56,11 +56,10 @@ const AboutSection = () => {
           <div className="glass p-8 rounded-2xl floating-element h-full bg-gradient-to-br from-blue-500/10 to-purple-500/10">
             <h3 className="text-2xl font-bold text-gradient-accent mb-4">My Journey</h3>
             <p className="text-slate-600 mb-4 leading-relaxed">
-              I'm at the beginning of my journey as a Frontend Developer, and I'm excited by the endless possibilities of the web. My focus is on honing my skills and building a strong foundation in modern web technologies. I am dedicated to writing clean code and am always eager to learn from new challenges and collaborations.
+              I'm at the beginning of my journey as a UI/UX designer, excited to shape how people interact with technology. I am dedicated to learning the principles of user-centered design and am currently honing my skills in creating effective and elegant solutions. With a background in frontend technologies, I bring a practical understanding of what it takes to bring a design to life on the web.
             </p>
             <p className="text-slate-600 leading-relaxed">
-              My primary focus is on developing my abilities in in React, TypeScript, and modern CSS frameworks, with a keen eye for design and performance.
-            </p>
+              I thrive in collaborative environments and am always eager to learn from experienced mentors and peers. My goal is to apply my growing skill set to meaningful projects, continuously pushing my creative boundaries to build products that are not only beautiful but also intuitive and accessible to all users.            </p>
           </div>
 
           <div className="grid gap-4">

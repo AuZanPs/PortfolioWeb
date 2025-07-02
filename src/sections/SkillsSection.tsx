@@ -34,9 +34,9 @@ const SkillsSection = () => {
   }
 
   const categories = [
-    { key: "hard" as const, label: "Hard Skills", icon: Code, color: "from-blue-500 to-blue-600" },
-    { key: "soft" as const, label: "Soft Skills", icon: User, color: "from-purple-500 to-purple-600" },
-    { key: "tools" as const, label: "Tools", icon: Wrench, color: "from-green-500 to-green-600" },
+    { key: "hard" as const, label: "Hard Skills", icon: Code, color: "from-blue-500/10 to-purple-500/10" },
+    { key: "soft" as const, label: "Soft Skills", icon: User, color: "from-blue-500/10 to-purple-500/10" },
+    { key: "tools" as const, label: "Tools", icon: Wrench, color: "from-blue-500/10 to-purple-500/10" },
   ]
 
   return (
@@ -60,8 +60,8 @@ const SkillsSection = () => {
                 onClick={() => setActiveCategory(category.key)}
                 className={`flex items-center gap-2 px-6 py-3 rounded-xl font-medium transition-all duration-300 ${
                   activeCategory === category.key
-                    ? `bg-gradient-to-r ${category.color} text-white shadow-lg scale-105`
-                    : "text-slate-600 hover:bg-white/20 hover:text-slate-800"
+                    ? `bg-gradient-to-r ${category.color} shadow-lg scale-105`
+                    : "text-slate-600 hover:bg-white/20"
                 }`}
               >
                 <category.icon size={18} />
@@ -98,7 +98,7 @@ const SkillsSection = () => {
           <div className="glass p-6 rounded-2xl inline-block">
             <p className="text-slate-600">
               {activeCategory === "hard" &&
-                "Technical skills I've developed through hands-on experience and continuous learning."}
+                "skills i've learned along the way"}
               {activeCategory === "soft" && "Personal qualities that help me work effectively and grow as a developer."}
               {activeCategory === "tools" && "Essential tools and platforms that power my development workflow."}
             </p>

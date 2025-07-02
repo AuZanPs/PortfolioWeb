@@ -1,25 +1,26 @@
-import { Github, Linkedin, Mail, Heart, Code, Coffee, Zap, Star } from "lucide-react"
+// src/components/Footer.tsx
+
+import { Github, Linkedin, Mail, Heart, Code, Coffee, Zap, Star, Moon } from "lucide-react";
 
 const Footer = () => {
   const socialLinks = [
-    { icon: Github, href: "#", label: "GitHub", color: "hover:text-gray-800" },
-    { icon: Linkedin, href: "#", label: "LinkedIn", color: "hover:text-blue-600" },
-    { icon: Mail, href: "#", label: "Email", color: "hover:text-purple-600" },
-  ]
+    { icon: Github, href: "https://github.com/AuZanPs", label: "GitHub", color: "hover:text-gray-800" },
+    { icon: Linkedin, href: "https://www.linkedin.com/in/auzan-putra-siregar-20b2951a6/", label: "LinkedIn", color: "hover:text-blue-600" },
+    { icon: Mail, href: "mailto:mauzanps@gmail.com", label: "Email", color: "hover:text-purple-600" },
+  ];
 
   const quickLinks = [
     { name: "About", href: "#about" },
     { name: "Skills", href: "#skills" },
     { name: "Projects", href: "#projects" },
     { name: "Contact", href: "#contact" },
-  ]
+  ];
 
   const stats = [
     { icon: Code, label: "Lines of Code", value: "5K+" },
-    { icon: Coffee, label: "Cups of Coffee", value: "a few" },
-    { icon: Zap, label: "Projects Built", value: "25+" },
-    { icon: Star, label: "GitHub Stars", value: "150+" },
-  ]
+    { icon: Moon, label: "Hours of Sleep", value: "a few" },
+    { icon: Zap, label: "Projects Built", value: "10+" },
+  ];
 
   return (
     <footer className="glass border-t border-white/20 mt-20 relative overflow-hidden">
@@ -36,14 +37,14 @@ const Footer = () => {
             <div className="glass p-6 rounded-2xl floating-element">
               <h3 className="text-3xl font-bold text-gradient-accent mb-4">Frontend Developer</h3>
               <p className="text-slate-600 mb-6 leading-relaxed">
-                Crafting beautiful, responsive, and user-friendly web experiences with modern technologies. Passionate
-                about clean code, innovative design, and seamless user interactions.
+                Passionate about creating intuitive and beautiful digital experiences. I'm shaping my journey as a UI/UX designer, using my frontend skills to bridge the gap between thoughtful design and seamless user interaction.
               </p>
               <div className="flex space-x-4">
                 {socialLinks.map((link) => (
                   <a
                     key={link.label}
                     href={link.href}
+                    target="_blank"
                     className={`glass p-3 rounded-full hover:bg-white/20 transition-all duration-300 hover:scale-110 ${link.color}`}
                     aria-label={link.label}
                   >
@@ -81,23 +82,19 @@ const Footer = () => {
               <div className="space-y-3">
                 <div className="text-slate-600">
                   <div className="font-medium text-slate-800">Email</div>
-                  <div className="text-sm">hello@frontend.dev</div>
+                  <div className="text-sm">mauzanps@gmail.com</div>
                 </div>
                 <div className="text-slate-600">
                   <div className="font-medium text-slate-800">Location</div>
-                  <div className="text-sm">San Francisco, CA</div>
-                </div>
-                <div className="flex items-center gap-2 text-sm">
-                  <div className="w-2 h-2 bg-green-500 rounded-full animate-pulse"></div>
-                  <span className="text-slate-600">Available for projects</span>
+                  <div className="text-sm">Jakarta</div>
                 </div>
               </div>
             </div>
           </div>
         </div>
 
-        {/* Stats Section */}
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-12">
+        {/* --- STATS SECTION UPDATED HERE --- */}
+        <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-12">
           {stats.map((stat) => (
             <div key={stat.label} className="glass p-4 rounded-xl text-center floating-element">
               <stat.icon size={24} className="mx-auto mb-2 text-blue-600" />
@@ -117,7 +114,7 @@ const Footer = () => {
         </div>
       </div>
     </footer>
-  )
-}
+  );
+};
 
-export default Footer
+export default Footer;

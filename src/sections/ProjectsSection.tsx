@@ -9,28 +9,28 @@ const ProjectsSection = () => {
   const projects = [
     {
       id: 1,
-      title: "E-Commerce Platform",
-      description: "A modern e-commerce platform built with Next.js, featuring real-time inventory management and secure payments.",
-      image: "https://placehold.co/600x400/EEE/31343C?text=E-Commerce",
-      technologies: ["Next.js", "Stripe", "PostgreSQL"],
+      title: "Health Care AI chatbot",
+      description: "i made a health care AI chatbot that can answer questions about health and medical topics, providing reliable information and resources.",
+      image: "https://placehold.co/600x400/EEE/31343C?text=AI-Chatbot",
+      technologies: ["Laravel", "Gemini API", "Prompting"],
       github: "#",
       live: "#",
     },
     {
       id: 2,
-      title: "3D Portfolio Website",
-      description: "An interactive 3D portfolio showcasing Three.js capabilities with smooth animations and responsive design.",
-      image: "https://placehold.co/600x400/31343C/EEE?text=3D+Portfolio",
-      technologies: ["React", "Three.js", "Tailwind CSS"],
+      title: "3D Animation: Waiting At the Stop",
+      description: "I made a 3D animation project that showcases a character waiting at a bus stop, demonstrating my skills in 3D modeling. I made a lot of assets.",
+      image: "https://placehold.co/600x400/31343C/EEE?text=3D-Animation",
+      technologies: ["Blender", "3D Moddeling", "Assets Creation"],
       github: "#",
       live: "#",
     },
     {
       id: 3,
-      title: "Task Management App",
-      description: "A collaborative task management application with real-time updates and drag-and-drop functionality.",
-      image: "https://placehold.co/600x400/EEE/31343C?text=Task+Manager",
-      technologies: ["React", "Node.js", "MongoDB"],
+      title: "Password Maker Web Game",
+      description: "i created a web game that teach you how to make a strong password, helping users improve their online security by providing education how and why is a password is strong enough to use.",
+      image: "https://placehold.co/600x400/EEE/31343C?text=Password-Game",
+      technologies: ["HTML", "CSS", "JavaScript"],
       github: "#",
       live: "#",
     },
@@ -84,6 +84,7 @@ const ProjectsSection = () => {
           <button onClick={prevProject} aria-label="Previous project" className="absolute left-0 top-1/2 -translate-x-1/2 -translate-y-1/2 glass p-3 rounded-full hover:bg-white/50 floating-element">
             <ChevronLeft size={20} />
           </button>
+          {/* --- FIX IS HERE --- */}
           <button onClick={nextProject} aria-label="Next project" className="absolute right-0 top-1/2 translate-x-1/2 -translate-y-1/2 glass p-3 rounded-full hover:bg-white/50 floating-element">
             <ChevronRight size={20} />
           </button>

@@ -62,20 +62,16 @@ const HeroSection = () => {
 
       <div className="container-custom relative z-10">
         <div className="text-center">
-          <div className="glass p-8 md:p-12 rounded-3xl floating-element max-w-4xl mx-auto">
+          <div className="glass p-8 md:p-12 rounded-3xl gap-10 floating-element max-w-4xl mx-auto">
             {/* Badge */}
-            <div className="inline-flex items-center gap-2 glass px-4 py-2 rounded-full mb-6 text-sm">
-              <div className="w-2 h-2 bg-green-500 rounded-full animate-pulse"></div>
-              <span className="text-slate-600">Available for new projects</span>
-            </div>
 
-            <h1 className="text-4xl md:text-6xl lg:text-7xl font-bold text-gradient mb-6">
+            <h1 className="text-4xl md:text-6xl lg:text-7xl font-bold text-gradient mb-15">
               Muhammad Auzan
               <span className="block text-gradient-accent">Putra Siregar</span>
             </h1>
 
-            <p className="text-lg md:text-xl text-slate-600 mb-8 max-w-2xl mx-auto leading-relaxed">
-              I craft beautiful, responsive, and interactive web experiences using modern technologies. Passionate about clean code, innovative design, and seamless user interactions.
+            <p className="text-lg md:text-xl text-slate-600 mb-15 max-w-2xl mx-auto leading-relaxed">
+            Passionate about creating intuitive and beautiful digital experiences. I'm shaping my journey as a UI/UX designer, using my frontend skills to bridge the gap between thoughtful design and seamless user interaction.      
             </p>
 
             <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
