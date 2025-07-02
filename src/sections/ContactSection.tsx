@@ -3,7 +3,7 @@
 import { useState, useRef } from "react";
 import type React from "react";
 import emailjs from '@emailjs/browser'; // Import EmailJS
-import { Send, Mail, MapPin, Phone, CheckCircle, AlertTriangle } from "lucide-react";
+import { Send, Mail, MapPin, CheckCircle, AlertTriangle } from "lucide-react";
 
 // Define the type for our submission status
 type SubmissionStatus = "idle" | "sending" | "success" | "error";

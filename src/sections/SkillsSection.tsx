@@ -73,7 +73,7 @@ const SkillsSection = () => {
 
         {/* Skills Grid */}
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {skillCategories[activeCategory].map((skill, index) => (
+          {skillCategories[activeCategory].map((skill) => (
             <div
               key={skill.name}
               className="glass p-6 rounded-2xl hover:bg-white/30 transition-all duration-300 hover:scale-105 group"

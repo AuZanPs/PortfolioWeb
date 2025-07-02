@@ -1,6 +1,6 @@
 // src/components/Footer.tsx
 
-import { Github, Linkedin, Mail, Heart, Code, Coffee, Zap, Star, Moon } from "lucide-react";
+import { Github, Linkedin, Mail, Code, Zap, Moon } from "lucide-react";
 
 const Footer = () => {
   const socialLinks = [
