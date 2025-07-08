@@ -3,7 +3,7 @@
 import { useRef } from "react";
 import type React from "react";
 import { Canvas, useFrame } from "@react-three/fiber";
-import { Sphere, MeshDistortMaterial } from "@react-three/drei";
+import { Sphere, MeshDistortMaterial, Box, Octahedron } from "@react-three/drei";
 import { ArrowDown, Code } from "lucide-react";
 import type * as THREE from "three";
 
@@ -31,6 +31,43 @@ const AnimatedSphere = () => {
   );
 };
 
+// Additional floating elements for Hero
+const FloatingCube = ({ position }: { position: [number, number, number] }) => {
+  const meshRef = useRef<THREE.Mesh>(null);
+  
+  useFrame((state) => {
+    if (meshRef.current) {
+      meshRef.current.rotation.x = state.clock.elapsedTime * 0.1;
+      meshRef.current.rotation.y = state.clock.elapsedTime * 0.15;
+      meshRef.current.position.y = position[1] + Math.sin(state.clock.elapsedTime * 0.8 + position[0]) * 0.3;
+    }
+  });
+
+  return (
+    <Box ref={meshRef} position={position} args={[0.4, 0.4, 0.4]}>
+      <meshStandardMaterial color="#60a5fa" wireframe transparent opacity={0.4} />
+    </Box>
+  );
+};
+
+const FloatingOctahedron = ({ position }: { position: [number, number, number] }) => {
+  const meshRef = useRef<THREE.Mesh>(null);
+  
+  useFrame((state) => {
+    if (meshRef.current) {
+      meshRef.current.rotation.y = state.clock.elapsedTime * 0.12;
+      meshRef.current.rotation.z = state.clock.elapsedTime * 0.08;
+      meshRef.current.position.y = position[1] + Math.cos(state.clock.elapsedTime * 0.6 + position[0]) * 0.2;
+    }
+  });
+
+  return (
+    <Octahedron ref={meshRef} position={position} args={[0.3]}>
+      <meshStandardMaterial color="#c084fc" wireframe transparent opacity={0.3} />
+    </Octahedron>
+  );
+};
+
 const HeroSection = () => {
   // The smooth scroll handler function, copied from the Navbar
   const handleSmoothScroll = (e: React.MouseEvent<HTMLAnchorElement>, href: string) => {
@@ -53,6 +90,13 @@ const HeroSection = () => {
           <ambientLight intensity={0.5} />
           <directionalLight position={[10, 10, 5]} intensity={1} />
           <AnimatedSphere />
+          
+          {/* Additional floating elements */}
+          <FloatingCube position={[-3, 2, -1]} />
+          <FloatingCube position={[3, -1, -2]} />
+          <FloatingOctahedron position={[-2, -2, 1]} />
+          <FloatingOctahedron position={[2, 3, 0]} />
+          <FloatingOctahedron position={[4, 1, -3]} />
         </Canvas>
       </div>
 

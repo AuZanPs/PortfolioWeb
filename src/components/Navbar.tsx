@@ -7,30 +7,39 @@ import { Menu, X, Home, User, Code, Briefcase, Mail } from "lucide-react";
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
-  // --- NEW STATE FOR AUTO-HIDING ---
   const [visible, setVisible] = useState(true);
-  const [lastScrollY, setLastScrollY] = useState(0);
 
   useEffect(() => {
-    const handleScroll = () => {
-      const currentScrollY = window.scrollY;
-      // Set scrolled state for background color change
-      setScrolled(currentScrollY > 20);
+    let ticking = false;
 
-      // --- NEW LOGIC FOR AUTO-HIDING ---
-      // Hide navbar when scrolling down, show when scrolling up
-      if (currentScrollY > lastScrollY && currentScrollY > 50) {
-        setVisible(false);
-      } else {
-        setVisible(true);
+    const handleScroll = () => {
+      if (!ticking) {
+        requestAnimationFrame(() => {
+          const currentScrollY = window.scrollY;
+          
+          // Set scrolled state for background color change
+          setScrolled(currentScrollY > 20);
+
+          // Check if we're in the hero section
+          const heroSection = document.getElementById("home");
+          if (heroSection) {
+            const heroRect = heroSection.getBoundingClientRect();
+            const heroBottom = heroRect.bottom;
+            
+            // Show navbar only when hero section is visible
+            // Add buffer so navbar doesn't disappear too early
+            setVisible(heroBottom > -50);
+          }
+          
+          ticking = false;
+        });
+        ticking = true;
       }
-      // Remember current scroll position for the next move
-      setLastScrollY(currentScrollY);
     };
 
-    window.addEventListener("scroll", handleScroll);
+    window.addEventListener("scroll", handleScroll, { passive: true });
     return () => window.removeEventListener("scroll", handleScroll);
-  }, [lastScrollY]);
+  }, []);
 
   const navItems = [
     { name: "Home", href: "#home", icon: Home },
@@ -56,14 +65,18 @@ const Navbar = () => {
     <>
       {/* Desktop Navbar */}
       <nav
-        className={`fixed left-1/2 -translate-x-1/2 z-50 transition-all duration-500 rounded-full px-6 py-3 hidden md:block ${
-          // --- UPDATED CLASSES FOR AUTO-HIDING ---
-          // Controls visibility and position
-          visible ? "top-6" : "-top-24"
+        className={`fixed left-1/2 -translate-x-1/2 z-50 transition-all duration-700 ease-out rounded-full px-6 py-3 hidden md:block ${
+          // Controls visibility and position - only show when in hero section
+          visible ? "top-6 opacity-100 translate-y-0" : "-top-20 opacity-0 translate-y-[-10px]"
         } ${
           // Controls background style based on scroll position
           scrolled ? "glass-purple shadow-xl" : "bg-white/20 backdrop-blur-md"
         }`}
+        style={{
+          willChange: 'transform, opacity',
+          backfaceVisibility: 'hidden',
+          perspective: 1000
+        }}
       >
         <div className="flex items-center space-x-6">
           {navItems.map((item) => (
@@ -82,8 +95,16 @@ const Navbar = () => {
         </div>
       </nav>
 
-      {/* Mobile Navbar (auto-hiding is often not ideal for mobile menu buttons) */}
-      <nav className="fixed top-6 right-6 z-50 md:hidden">
+      {/* Mobile Navbar - keep it always visible for mobile usability */}
+      <nav 
+        className={`fixed top-6 right-6 z-50 md:hidden transition-all duration-700 ease-out ${
+          visible ? "opacity-100 scale-100" : "opacity-50 scale-95"
+        }`}
+        style={{
+          willChange: 'transform, opacity',
+          backfaceVisibility: 'hidden'
+        }}
+      >
         <button
           onClick={() => setIsOpen(!isOpen)}
           className="glass-purple p-3 rounded-full shadow-xl"

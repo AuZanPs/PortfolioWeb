@@ -1,7 +1,90 @@
 // src/sections/ProjectsSection.tsx
 
-import { useState } from "react";
-import { ExternalLink, Github, ChevronLeft, ChevronRight } from "lucide-react";
+import { useState, useRef } from "react";
+import { Canvas, useFrame } from "@react-three/fiber";
+import { Box, Sphere, Octahedron } from "@react-three/drei";
+import { ChevronLeft, ChevronRight } from "lucide-react";
+import type * as THREE from "three";
+
+// 3D Background Components
+const FloatingCube = ({ position, rotationSpeed }: { position: [number, number, number], rotationSpeed: number }) => {
+  const meshRef = useRef<THREE.Mesh>(null);
+  
+  useFrame((state) => {
+    if (meshRef.current) {
+      meshRef.current.rotation.x = state.clock.elapsedTime * rotationSpeed;
+      meshRef.current.rotation.y = state.clock.elapsedTime * rotationSpeed * 0.8;
+      meshRef.current.position.y = position[1] + Math.sin(state.clock.elapsedTime + position[0]) * 0.3;
+    }
+  });
+
+  return (
+    <Box ref={meshRef} position={position} args={[0.8, 0.8, 0.8]}>
+      <meshStandardMaterial color="#60a5fa" wireframe transparent opacity={0.6} />
+    </Box>
+  );
+};
+
+const FloatingSphere = ({ position, rotationSpeed }: { position: [number, number, number], rotationSpeed: number }) => {
+  const meshRef = useRef<THREE.Mesh>(null);
+  
+  useFrame((state) => {
+    if (meshRef.current) {
+      meshRef.current.rotation.x = state.clock.elapsedTime * rotationSpeed;
+      meshRef.current.rotation.z = state.clock.elapsedTime * rotationSpeed * 0.5;
+      meshRef.current.position.y = position[1] + Math.cos(state.clock.elapsedTime * 0.8 + position[0]) * 0.4;
+    }
+  });
+
+  return (
+    <Sphere ref={meshRef} position={position} args={[0.6, 16, 16]}>
+      <meshStandardMaterial color="#c084fc" wireframe transparent opacity={0.5} />
+    </Sphere>
+  );
+};
+
+const FloatingOctahedron = ({ position, rotationSpeed }: { position: [number, number, number], rotationSpeed: number }) => {
+  const meshRef = useRef<THREE.Mesh>(null);
+  
+  useFrame((state) => {
+    if (meshRef.current) {
+      meshRef.current.rotation.y = state.clock.elapsedTime * rotationSpeed;
+      meshRef.current.rotation.z = state.clock.elapsedTime * rotationSpeed * 0.6;
+      meshRef.current.position.y = position[1] + Math.sin(state.clock.elapsedTime * 1.2 + position[0]) * 0.2;
+    }
+  });
+
+  return (
+    <Octahedron ref={meshRef} position={position} args={[0.7]}>
+      <meshStandardMaterial color="#f87171" wireframe transparent opacity={0.4} />
+    </Octahedron>
+  );
+};
+
+const ThreeBackground = () => {
+  return (
+    <Canvas 
+      camera={{ position: [0, 0, 10], fov: 50 }} 
+      style={{ pointerEvents: 'none' }}
+      dpr={[1, 1.5]} // Limit device pixel ratio for better performance
+      performance={{ min: 0.5 }} // Lower performance threshold
+    >
+      <ambientLight intensity={0.3} />
+      <directionalLight position={[5, 5, 5]} intensity={0.5} />
+      
+      {/* Reduced number of floating geometric shapes for better performance */}
+      <FloatingCube position={[-4, 2, -2]} rotationSpeed={0.2} />
+      <FloatingCube position={[4, -1, -3]} rotationSpeed={0.15} />
+      
+      <FloatingSphere position={[-3, -2, -1]} rotationSpeed={0.25} />
+      <FloatingSphere position={[3, 3, -2]} rotationSpeed={0.2} />
+      
+      <FloatingOctahedron position={[-1, 3, -3]} rotationSpeed={0.2} />
+      <FloatingOctahedron position={[2, -3, -1]} rotationSpeed={0.18} />
+      {/* Removed one octahedron to improve performance */}
+    </Canvas>
+  );
+};
 
 const ProjectsSection = () => {
   const [currentProject, setCurrentProject] = useState(0);
@@ -13,8 +96,6 @@ const ProjectsSection = () => {
       description: "i made a health care AI chatbot that can answer questions about health and medical topics, providing reliable information and resources.",
       image: "https://placehold.co/600x400/EEE/31343C?text=AI-Chatbot",
       technologies: ["Laravel", "Gemini API", "Prompting"],
-      github: "#",
-      live: "#",
     },
     {
       id: 2,
@@ -22,8 +103,6 @@ const ProjectsSection = () => {
       description: "I made a 3D animation project that showcases a character waiting at a bus stop, demonstrating my skills in 3D modeling. I made a lot of assets.",
       image: "https://placehold.co/600x400/31343C/EEE?text=3D-Animation",
       technologies: ["Blender", "3D Moddeling", "Assets Creation"],
-      github: "#",
-      live: "#",
     },
     {
       id: 3,
@@ -31,8 +110,6 @@ const ProjectsSection = () => {
       description: "i created a web game that teach you how to make a strong password, helping users improve their online security by providing education how and why is a password is strong enough to use.",
       image: "https://placehold.co/600x400/EEE/31343C?text=Password-Game",
       technologies: ["HTML", "CSS", "JavaScript"],
-      github: "#",
-      live: "#",
     },
   ];
 
@@ -43,6 +120,16 @@ const ProjectsSection = () => {
 
   return (
     <section id="projects" className="py-20 relative overflow-hidden">
+      {/* 3D Background */}
+      <div className="absolute inset-0 opacity-30 -z-10">
+        <ThreeBackground />
+      </div>
+      
+      {/* Additional background gradients */}
+      <div className="absolute top-1/4 left-1/4 w-64 h-64 bg-blue-500/10 rounded-full blur-3xl"></div>
+      <div className="absolute bottom-1/4 right-1/4 w-80 h-80 bg-purple-500/10 rounded-full blur-3xl"></div>
+      <div className="absolute top-3/4 left-1/2 w-48 h-48 bg-pink-500/10 rounded-full blur-2xl"></div>
+
       <div className="container-custom py-16 relative z-10">
         <div className="text-center mb-12">
           <h2 className="text-4xl md:text-5xl font-bold text-gradient mb-4">
@@ -69,14 +156,6 @@ const ProjectsSection = () => {
                     {tech}
                   </span>
                 ))}
-              </div>
-              <div className="flex gap-4">
-                <a href={activeProject.github} className="glass px-6 py-3 rounded-full font-semibold hover:bg-white/50 transition-all duration-300 flex items-center gap-2 floating-element">
-                  <Github size={18} /> Code
-                </a>
-                <a href={activeProject.live} className="glass px-6 py-3 rounded-full font-semibold hover:bg-white/50 transition-all duration-300 flex items-center gap-2 floating-element">
-                  <ExternalLink size={18} /> Live Demo
-                </a>
               </div>
             </div>
           </div>

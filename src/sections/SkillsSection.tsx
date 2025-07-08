@@ -1,7 +1,53 @@
 "use client"
 
-import { useState } from "react"
+import { useState, useRef } from "react"
+import { Canvas, useFrame } from "@react-three/fiber"
+import { Sphere, Box, Octahedron } from "@react-three/drei"
 import { Code, User, Wrench } from "lucide-react"
+import type * as THREE from "three"
+
+// 3D Background for Skills
+const FloatingSkillsElements = () => {
+  const cubeRef = useRef<THREE.Mesh>(null);
+  const sphereRef = useRef<THREE.Mesh>(null);
+  const octaRef = useRef<THREE.Mesh>(null);
+  
+  useFrame((state) => {
+    if (cubeRef.current) {
+      cubeRef.current.rotation.x = state.clock.elapsedTime * 0.2;
+      cubeRef.current.rotation.y = state.clock.elapsedTime * 0.15;
+      cubeRef.current.position.y = 1 + Math.sin(state.clock.elapsedTime) * 0.3;
+    }
+    if (sphereRef.current) {
+      sphereRef.current.rotation.z = state.clock.elapsedTime * 0.1;
+      sphereRef.current.position.y = -1 + Math.cos(state.clock.elapsedTime * 0.8) * 0.4;
+    }
+    if (octaRef.current) {
+      octaRef.current.rotation.y = state.clock.elapsedTime * 0.25;
+      octaRef.current.position.y = 2 + Math.sin(state.clock.elapsedTime * 1.2) * 0.2;
+    }
+  });
+
+  return (
+    <>
+      <Box ref={cubeRef} position={[-4, 1, -2]} args={[0.6, 0.6, 0.6]}>
+        <meshStandardMaterial color="#60a5fa" wireframe transparent opacity={0.4} />
+      </Box>
+      <Sphere ref={sphereRef} position={[4, -1, -3]} args={[0.5, 32, 32]}>
+        <meshStandardMaterial color="#c084fc" wireframe transparent opacity={0.3} />
+      </Sphere>
+      <Octahedron ref={octaRef} position={[-3, 2, -1]} args={[0.4]}>
+        <meshStandardMaterial color="#f87171" wireframe transparent opacity={0.35} />
+      </Octahedron>
+      <Box position={[3, 3, -4]} args={[0.3, 0.3, 0.3]}>
+        <meshStandardMaterial color="#60a5fa" wireframe transparent opacity={0.2} />
+      </Box>
+      <Octahedron position={[2, -2, -2]} args={[0.3]}>
+        <meshStandardMaterial color="#c084fc" wireframe transparent opacity={0.25} />
+      </Octahedron>
+    </>
+  );
+};
 
 const SkillsSection = () => {
   const [activeCategory, setActiveCategory] = useState<"hard" | "soft" | "tools">("hard")
@@ -41,6 +87,19 @@ const SkillsSection = () => {
 
   return (
     <section id="skills" className="py-20 relative overflow-hidden">
+      {/* 3D Background */}
+      <div className="absolute inset-0 opacity-25 -z-10">
+        <Canvas camera={{ position: [0, 0, 8], fov: 50 }}>
+          <ambientLight intensity={0.4} />
+          <directionalLight position={[5, 5, 5]} intensity={0.6} />
+          <FloatingSkillsElements />
+        </Canvas>
+      </div>
+
+      {/* Background gradients */}
+      <div className="absolute top-1/4 right-1/4 w-64 h-64 bg-blue-500/10 rounded-full blur-3xl"></div>
+      <div className="absolute bottom-1/4 left-1/4 w-80 h-80 bg-purple-500/10 rounded-full blur-3xl"></div>
+
       <div className="container-custom py-16 relative z-10">
         <div className="text-center mb-12">
           <h2 className="text-4xl md:text-5xl font-bold text-gradient mb-4">Skills & Technologies</h2>

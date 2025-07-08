@@ -2,7 +2,7 @@
 
 import { useRef } from "react";
 import { Canvas, useFrame } from "@react-three/fiber";
-import { Torus } from "@react-three/drei";
+import { Torus, Box, Octahedron } from "@react-three/drei";
 import { Code, Palette, Zap, Users } from "lucide-react";
 import type * as THREE from "three";
 
@@ -28,6 +28,38 @@ const IntertwinedRings = () => {
   );
 };
 
+// Additional floating elements for About section
+const FloatingGeometry = () => {
+  const cubeRef = useRef<THREE.Mesh>(null);
+  const octaRef = useRef<THREE.Mesh>(null);
+  
+  useFrame((state) => {
+    if (cubeRef.current) {
+      cubeRef.current.rotation.x = state.clock.elapsedTime * 0.15;
+      cubeRef.current.rotation.y = state.clock.elapsedTime * 0.1;
+      cubeRef.current.position.y = 3 + Math.sin(state.clock.elapsedTime * 0.8) * 0.3;
+    }
+    if (octaRef.current) {
+      octaRef.current.rotation.z = state.clock.elapsedTime * 0.12;
+      octaRef.current.position.y = -3 + Math.cos(state.clock.elapsedTime * 0.6) * 0.2;
+    }
+  });
+
+  return (
+    <>
+      <Box ref={cubeRef} position={[-5, 3, -3]} args={[0.5, 0.5, 0.5]}>
+        <meshStandardMaterial color="#60a5fa" wireframe transparent opacity={0.3} />
+      </Box>
+      <Octahedron ref={octaRef} position={[5, -3, -2]} args={[0.4]}>
+        <meshStandardMaterial color="#f87171" wireframe transparent opacity={0.25} />
+      </Octahedron>
+      <Box position={[-4, -2, -4]} args={[0.3, 0.3, 0.3]}>
+        <meshStandardMaterial color="#c084fc" wireframe transparent opacity={0.2} />
+      </Box>
+    </>
+  );
+};
+
 const AboutSection = () => {
   const highlights = [
     { icon: Code, title: "Simple Code", description: "Writing simplistic, time-efficient, and easy-to-use code." },
@@ -43,8 +75,13 @@ const AboutSection = () => {
           <ambientLight intensity={0.5} />
           <directionalLight position={[10, 10, 5]} intensity={1} />
           <IntertwinedRings />
+          <FloatingGeometry />
         </Canvas>
       </div>
+
+      {/* Additional background gradients */}
+      <div className="absolute top-1/4 left-1/4 w-64 h-64 bg-blue-500/10 rounded-full blur-3xl"></div>
+      <div className="absolute bottom-1/4 right-1/4 w-80 h-80 bg-purple-500/10 rounded-full blur-3xl"></div>
 
       <div className="container-custom">
         <div className="text-center mb-16">
