@@ -112,9 +112,34 @@ body {
 
   /* Optimized blur backgrounds */
   .blur-bg {
-    filter: blur(60px);
+    filter: blur(40px);
     will-change: transform;
     transform: translateZ(0);
+  }
+
+  /* Ultra-optimized animations */
+  .micro-animation {
+    transition: transform 0.1s ease-out;
+  }
+
+  .micro-animation:hover {
+    transform: translateY(-1px);
+  }
+
+  /* Optimized glass effects for better performance */
+  .glass-ultra-light {
+    @apply bg-white/3 border border-white/5;
+    backdrop-filter: blur(6px);
+    -webkit-backdrop-filter: blur(6px);
+  }
+
+  /* Performance-first hover states */
+  .performance-hover {
+    transition: background-color 0.15s ease-out;
+  }
+
+  .performance-hover:hover {
+    background-color: rgba(255, 255, 255, 0.05);
   }
 }
 

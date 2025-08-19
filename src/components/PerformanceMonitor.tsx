@@ -1,9 +1,9 @@
 // src/components/PerformanceMonitor.tsx
 
-import { useEffect, useState } from 'react';
+import { useEffect, useState, memo, useMemo } from 'react';
 import { usePerformanceMonitor, useMemoryMonitor } from '../utils/performance';
 
-const PerformanceMonitor = () => {
+const PerformanceMonitor = memo(() => {
   const fps = usePerformanceMonitor();
   const memory = useMemoryMonitor();
   const [isVisible, setIsVisible] = useState(false);
@@ -19,25 +19,39 @@ const PerformanceMonitor = () => {
     return () => window.removeEventListener('keydown', handleKeyPress);
   }, [isVisible]);
 
+  // Memoize expensive calculations
+  const fpsColor = useMemo(() => {
+    return fps >= 55 ? 'text-green-600' : fps >= 30 ? 'text-yellow-600' : 'text-red-600';
+  }, [fps]);
+
+  const memoryStats = useMemo(() => {
+    if (!memory) return null;
+    return {
+      used: (memory.usedJSHeapSize / 1024 / 1024).toFixed(1),
+      total: (memory.totalJSHeapSize / 1024 / 1024).toFixed(1),
+      limit: (memory.jsHeapSizeLimit / 1024 / 1024).toFixed(1),
+    };
+  }, [memory]);
+
   if (!isVisible) return null;
 
   return (
     <div className="fixed top-4 left-4 z-50 glass p-4 rounded-lg text-sm font-mono">
       <div className="space-y-2">
         <div className="text-gradient-accent font-bold">Performance Monitor</div>
-        <div className={`${fps >= 55 ? 'text-green-600' : fps >= 30 ? 'text-yellow-600' : 'text-red-600'}`}>
+        <div className={fpsColor}>
           FPS: {fps}
         </div>
-        {memory && (
+        {memoryStats && (
           <>
             <div className="text-slate-600">
-              Used JS Heap: {(memory.usedJSHeapSize / 1024 / 1024).toFixed(1)} MB
+              Used JS Heap: {memoryStats.used} MB
             </div>
             <div className="text-slate-600">
-              Total JS Heap: {(memory.totalJSHeapSize / 1024 / 1024).toFixed(1)} MB
+              Total JS Heap: {memoryStats.total} MB
             </div>
             <div className="text-slate-600">
-              Heap Limit: {(memory.jsHeapSizeLimit / 1024 / 1024).toFixed(1)} MB
+              Heap Limit: {memoryStats.limit} MB
             </div>
           </>
         )}
@@ -47,6 +61,8 @@ const PerformanceMonitor = () => {
       </div>
     </div>
   );
-};
+});
+
+PerformanceMonitor.displayName = 'PerformanceMonitor';
 
 export default PerformanceMonitor;

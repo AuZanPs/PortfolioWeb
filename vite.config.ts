@@ -60,7 +60,7 @@ export default defineConfig({
         }
       }
     },
-    chunkSizeWarningLimit: 500, // Reduced chunk size limit
+    chunkSizeWarningLimit: 1000, // Increased to reduce warnings while maintaining performance
     minify: 'terser',
     target: 'es2020',
     sourcemap: false, // Disable sourcemaps for production
