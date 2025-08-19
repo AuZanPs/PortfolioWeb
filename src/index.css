@@ -1,24 +1,71 @@
 @import "tailwindcss";
 
+/* Performance optimizations */
+* {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
 body {
   font-family: "JetBrains Mono", monospace;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  /* Enable GPU acceleration */
+  transform: translateZ(0);
+  backface-visibility: hidden;
+  perspective: 1000px;
+}
+
+/* Reduce motion for users who prefer it */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
 }
 
 @layer utilities {
   .glass {
-    @apply bg-white/10 backdrop-blur-md border border-white/20;
+    @apply bg-white/10 border border-white/20;
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    /* GPU acceleration */
+    will-change: transform;
+    transform: translateZ(0);
+  }
+
+  .glass-purple {
+    @apply bg-gradient-to-br from-blue-600/90 to-purple-600/90 border border-white/20;
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    will-change: transform;
+    transform: translateZ(0);
   }
 
   .glass-dark {
-    @apply bg-black/10 backdrop-blur-md border border-black/20;
+    @apply bg-black/10 border border-black/20;
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    will-change: transform;
+    transform: translateZ(0);
   }
 
   .text-gradient {
     @apply bg-gradient-to-r from-slate-900 via-purple-700 to-slate-900 bg-clip-text text-transparent;
+    /* Prevent text selection issues */
+    -webkit-background-clip: text;
   }
 
   .text-gradient-accent {
     @apply bg-gradient-to-r from-blue-600 via-purple-600 to-indigo-600 bg-clip-text text-transparent;
+    -webkit-background-clip: text;
   }
 
   .bg-gradient-primary {
@@ -38,7 +85,19 @@ body {
   }
 
   .floating-element {
-    @apply hover:scale-105 transition-all duration-300;
+    transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    will-change: transform;
+  }
+
+  .floating-element:hover {
+    transform: translateY(-4px) scale(1.02);
+  }
+
+  /* Optimized blur backgrounds */
+  .blur-bg {
+    filter: blur(60px);
+    will-change: transform;
+    transform: translateZ(0);
   }
 }
 

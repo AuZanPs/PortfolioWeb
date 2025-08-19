@@ -1,39 +1,50 @@
 // src/sections/AboutSection.tsx
 
-import { useRef } from "react";
-import { Canvas, useFrame } from "@react-three/fiber";
+import { useRef, memo } from "react";
+import { useFrame } from "@react-three/fiber";
 import { Torus, Box, Octahedron } from "@react-three/drei";
 import { Code, Palette, Zap, Users } from "lucide-react";
 import type * as THREE from "three";
+import OptimizedCanvas from "../components/OptimizedCanvas";
+import { useThrottledFrame, getQualitySettings } from "../utils/performance";
 
-const IntertwinedRings = () => {
+const IntertwinedRings = memo(() => {
   const groupRef = useRef<THREE.Group>(null);
-  useFrame((state) => {
+  const qualitySettings = getQualitySettings();
+  
+  const throttledFrame = useThrottledFrame((state) => {
     if (groupRef.current) {
       groupRef.current.rotation.y = state.clock.getElapsedTime() * 0.1;
     }
-  });
+  }, 24); // 24 FPS for smooth rotation
+
+  useFrame(throttledFrame);
+
+  // Reduce torus segments based on performance
+  const segments = qualitySettings.geometryDetail === 'high' ? 100 : 
+                  qualitySettings.geometryDetail === 'medium' ? 64 : 32;
+
   return (
     <group ref={groupRef}>
-      <Torus args={[2, 0.1, 16, 100]} rotation={[Math.PI / 2, 0, 0]}>
+      <Torus args={[2, 0.1, 16, segments]} rotation={[Math.PI / 2, 0, 0]}>
         <meshStandardMaterial color="#60a5fa" wireframe />
       </Torus>
-      <Torus args={[2, 0.1, 16, 100]} rotation={[Math.PI / 2, Math.PI / 3, 0]}>
+      <Torus args={[2, 0.1, 16, segments]} rotation={[Math.PI / 2, Math.PI / 3, 0]}>
         <meshStandardMaterial color="#c084fc" wireframe />
       </Torus>
-      <Torus args={[2, 0.1, 16, 100]} rotation={[Math.PI / 2, -Math.PI / 3, 0]}>
+      <Torus args={[2, 0.1, 16, segments]} rotation={[Math.PI / 2, -Math.PI / 3, 0]}>
         <meshStandardMaterial color="#f87171" wireframe />
       </Torus>
     </group>
   );
-};
+});
 
 // Additional floating elements for About section
-const FloatingGeometry = () => {
+const FloatingGeometry = memo(() => {
   const cubeRef = useRef<THREE.Mesh>(null);
   const octaRef = useRef<THREE.Mesh>(null);
   
-  useFrame((state) => {
+  const throttledFrame = useThrottledFrame((state) => {
     if (cubeRef.current) {
       cubeRef.current.rotation.x = state.clock.elapsedTime * 0.15;
       cubeRef.current.rotation.y = state.clock.elapsedTime * 0.1;
@@ -43,7 +54,9 @@ const FloatingGeometry = () => {
       octaRef.current.rotation.z = state.clock.elapsedTime * 0.12;
       octaRef.current.position.y = -3 + Math.cos(state.clock.elapsedTime * 0.6) * 0.2;
     }
-  });
+  }, 20);
+
+  useFrame(throttledFrame);
 
   return (
     <>
@@ -53,12 +66,10 @@ const FloatingGeometry = () => {
       <Octahedron ref={octaRef} position={[5, -3, -2]} args={[0.4]}>
         <meshStandardMaterial color="#f87171" wireframe transparent opacity={0.25} />
       </Octahedron>
-      <Box position={[-4, -2, -4]} args={[0.3, 0.3, 0.3]}>
-        <meshStandardMaterial color="#c084fc" wireframe transparent opacity={0.2} />
-      </Box>
+      {/* Removed one static box for better performance */}
     </>
   );
-};
+});
 
 const AboutSection = () => {
   const highlights = [
@@ -70,14 +81,15 @@ const AboutSection = () => {
 
   return (
     <section id="about" className="py-20 relative overflow-hidden">
-      <div className="absolute inset-0 opacity-10 -z-10">
-        <Canvas camera={{ position: [0, 0, 8], fov: 50 }}>
-          <ambientLight intensity={0.5} />
-          <directionalLight position={[10, 10, 5]} intensity={1} />
-          <IntertwinedRings />
-          <FloatingGeometry />
-        </Canvas>
-      </div>
+      <OptimizedCanvas 
+        className="absolute inset-0 opacity-10 -z-10"
+        camera={{ position: [0, 0, 8], fov: 50 }}
+      >
+        <ambientLight intensity={0.5} />
+        <directionalLight position={[10, 10, 5]} intensity={1} />
+        <IntertwinedRings />
+        <FloatingGeometry />
+      </OptimizedCanvas>
 
       {/* Additional background gradients */}
       <div className="absolute top-1/4 left-1/4 w-64 h-64 bg-blue-500/10 rounded-full blur-3xl"></div>

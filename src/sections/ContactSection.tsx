@@ -1,24 +1,26 @@
 // src/sections/ContactSection.tsx
 
-import { useState, useRef } from "react";
+import { useState, useRef, memo } from "react";
 import type React from "react";
-import { Canvas, useFrame } from "@react-three/fiber";
+import { useFrame } from "@react-three/fiber";
 import { Sphere, Box, Octahedron } from "@react-three/drei";
 import emailjs from '@emailjs/browser'; // Import EmailJS
 import { Send, Mail, MapPin, CheckCircle, AlertTriangle } from "lucide-react";
 import type * as THREE from "three";
+import OptimizedCanvas from "../components/OptimizedCanvas";
+import { useThrottledFrame } from "../utils/performance";
 
 // Define the type for our submission status
 type SubmissionStatus = "idle" | "sending" | "success" | "error";
 
 // 3D Background for Contact
-const FloatingContactElements = () => {
+const FloatingContactElements = memo(() => {
   const sphere1Ref = useRef<THREE.Mesh>(null);
   const sphere2Ref = useRef<THREE.Mesh>(null);
   const cubeRef = useRef<THREE.Mesh>(null);
   const octaRef = useRef<THREE.Mesh>(null);
   
-  useFrame((state) => {
+  const throttledFrame = useThrottledFrame((state) => {
     if (sphere1Ref.current) {
       sphere1Ref.current.rotation.x = state.clock.elapsedTime * 0.1;
       sphere1Ref.current.position.y = 2 + Math.sin(state.clock.elapsedTime * 0.7) * 0.3;
@@ -35,14 +37,16 @@ const FloatingContactElements = () => {
       octaRef.current.rotation.x = state.clock.elapsedTime * 0.18;
       octaRef.current.position.y = -2 + Math.cos(state.clock.elapsedTime * 0.6) * 0.25;
     }
-  });
+  }, 20);
+
+  useFrame(throttledFrame);
 
   return (
     <>
-      <Sphere ref={sphere1Ref} position={[-4, 2, -2]} args={[0.5, 32, 32]}>
+      <Sphere ref={sphere1Ref} position={[-4, 2, -2]} args={[0.5, 16, 16]}>
         <meshStandardMaterial color="#60a5fa" wireframe transparent opacity={0.4} />
       </Sphere>
-      <Sphere ref={sphere2Ref} position={[4, -1, -3]} args={[0.6, 32, 32]}>
+      <Sphere ref={sphere2Ref} position={[4, -1, -3]} args={[0.6, 16, 16]}>
         <meshStandardMaterial color="#c084fc" wireframe transparent opacity={0.3} />
       </Sphere>
       <Box ref={cubeRef} position={[-3, 1, -1]} args={[0.4, 0.4, 0.4]}>
@@ -51,12 +55,10 @@ const FloatingContactElements = () => {
       <Octahedron ref={octaRef} position={[3, -2, -2]} args={[0.4]}>
         <meshStandardMaterial color="#60a5fa" wireframe transparent opacity={0.3} />
       </Octahedron>
-      <Box position={[2, 3, -4]} args={[0.3, 0.3, 0.3]}>
-        <meshStandardMaterial color="#c084fc" wireframe transparent opacity={0.2} />
-      </Box>
+      {/* Removed static box for better performance */}
     </>
   );
-};
+});
 
 const ContactSection = () => {
   const form = useRef<HTMLFormElement>(null);
@@ -105,13 +107,14 @@ const ContactSection = () => {
   return (
     <section id="contact" className="py-20 relative overflow-hidden">
       {/* 3D Background */}
-      <div className="absolute inset-0 opacity-25 -z-10">
-        <Canvas camera={{ position: [0, 0, 8], fov: 50 }}>
-          <ambientLight intensity={0.4} />
-          <directionalLight position={[5, 5, 5]} intensity={0.6} />
-          <FloatingContactElements />
-        </Canvas>
-      </div>
+      <OptimizedCanvas 
+        className="absolute inset-0 opacity-25 -z-10"
+        camera={{ position: [0, 0, 8], fov: 50 }}
+      >
+        <ambientLight intensity={0.4} />
+        <directionalLight position={[5, 5, 5]} intensity={0.6} />
+        <FloatingContactElements />
+      </OptimizedCanvas>
 
       {/* Background gradients */}
       <div className="absolute top-1/4 left-1/4 w-64 h-64 bg-blue-500/10 rounded-full blur-3xl"></div>

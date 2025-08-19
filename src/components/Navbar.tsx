@@ -1,6 +1,6 @@
 // src/components/Navbar.tsx
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import type React from "react";
 import { Menu, X, Home, User, Code, Briefcase, Mail } from "lucide-react";
 
@@ -9,37 +9,40 @@ const Navbar = () => {
   const [scrolled, setScrolled] = useState(false);
   const [visible, setVisible] = useState(true);
 
+  const handleScroll = useCallback(() => {
+    const currentScrollY = window.scrollY;
+    
+    // Set scrolled state for background color change
+    setScrolled(currentScrollY > 20);
+
+    // Check if we're in the hero section
+    const heroSection = document.getElementById("home");
+    if (heroSection) {
+      const heroRect = heroSection.getBoundingClientRect();
+      const heroBottom = heroRect.bottom;
+      
+      // Show navbar only when hero section is visible
+      // Add buffer so navbar doesn't disappear too early
+      setVisible(heroBottom > -50);
+    }
+  }, []);
+
   useEffect(() => {
     let ticking = false;
 
-    const handleScroll = () => {
+    const throttledScroll = () => {
       if (!ticking) {
         requestAnimationFrame(() => {
-          const currentScrollY = window.scrollY;
-          
-          // Set scrolled state for background color change
-          setScrolled(currentScrollY > 20);
-
-          // Check if we're in the hero section
-          const heroSection = document.getElementById("home");
-          if (heroSection) {
-            const heroRect = heroSection.getBoundingClientRect();
-            const heroBottom = heroRect.bottom;
-            
-            // Show navbar only when hero section is visible
-            // Add buffer so navbar doesn't disappear too early
-            setVisible(heroBottom > -50);
-          }
-          
+          handleScroll();
           ticking = false;
         });
         ticking = true;
       }
     };
 
-    window.addEventListener("scroll", handleScroll, { passive: true });
-    return () => window.removeEventListener("scroll", handleScroll);
-  }, []);
+    window.addEventListener("scroll", throttledScroll, { passive: true });
+    return () => window.removeEventListener("scroll", throttledScroll);
+  }, [handleScroll]);
 
   const navItems = [
     { name: "Home", href: "#home", icon: Home },

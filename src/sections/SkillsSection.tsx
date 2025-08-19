@@ -1,18 +1,18 @@
-"use client"
-
-import { useState, useRef } from "react"
-import { Canvas, useFrame } from "@react-three/fiber"
+import { useState, useRef, memo } from "react"
+import { useFrame } from "@react-three/fiber"
 import { Sphere, Box, Octahedron } from "@react-three/drei"
 import { Code, User, Wrench } from "lucide-react"
 import type * as THREE from "three"
+import OptimizedCanvas from "../components/OptimizedCanvas"
+import { useThrottledFrame } from "../utils/performance"
 
 // 3D Background for Skills
-const FloatingSkillsElements = () => {
+const FloatingSkillsElements = memo(() => {
   const cubeRef = useRef<THREE.Mesh>(null);
   const sphereRef = useRef<THREE.Mesh>(null);
   const octaRef = useRef<THREE.Mesh>(null);
   
-  useFrame((state) => {
+  const throttledFrame = useThrottledFrame((state) => {
     if (cubeRef.current) {
       cubeRef.current.rotation.x = state.clock.elapsedTime * 0.2;
       cubeRef.current.rotation.y = state.clock.elapsedTime * 0.15;
@@ -26,28 +26,25 @@ const FloatingSkillsElements = () => {
       octaRef.current.rotation.y = state.clock.elapsedTime * 0.25;
       octaRef.current.position.y = 2 + Math.sin(state.clock.elapsedTime * 1.2) * 0.2;
     }
-  });
+  }, 20);
+
+  useFrame(throttledFrame);
 
   return (
     <>
       <Box ref={cubeRef} position={[-4, 1, -2]} args={[0.6, 0.6, 0.6]}>
         <meshStandardMaterial color="#60a5fa" wireframe transparent opacity={0.4} />
       </Box>
-      <Sphere ref={sphereRef} position={[4, -1, -3]} args={[0.5, 32, 32]}>
+      <Sphere ref={sphereRef} position={[4, -1, -3]} args={[0.5, 16, 16]}>
         <meshStandardMaterial color="#c084fc" wireframe transparent opacity={0.3} />
       </Sphere>
       <Octahedron ref={octaRef} position={[-3, 2, -1]} args={[0.4]}>
         <meshStandardMaterial color="#f87171" wireframe transparent opacity={0.35} />
       </Octahedron>
-      <Box position={[3, 3, -4]} args={[0.3, 0.3, 0.3]}>
-        <meshStandardMaterial color="#60a5fa" wireframe transparent opacity={0.2} />
-      </Box>
-      <Octahedron position={[2, -2, -2]} args={[0.3]}>
-        <meshStandardMaterial color="#c084fc" wireframe transparent opacity={0.25} />
-      </Octahedron>
+      {/* Removed static elements for better performance */}
     </>
   );
-};
+});
 
 const SkillsSection = () => {
   const [activeCategory, setActiveCategory] = useState<"hard" | "soft" | "tools">("hard")
@@ -88,13 +85,14 @@ const SkillsSection = () => {
   return (
     <section id="skills" className="py-20 relative overflow-hidden">
       {/* 3D Background */}
-      <div className="absolute inset-0 opacity-25 -z-10">
-        <Canvas camera={{ position: [0, 0, 8], fov: 50 }}>
-          <ambientLight intensity={0.4} />
-          <directionalLight position={[5, 5, 5]} intensity={0.6} />
-          <FloatingSkillsElements />
-        </Canvas>
-      </div>
+      <OptimizedCanvas 
+        className="absolute inset-0 opacity-25 -z-10"
+        camera={{ position: [0, 0, 8], fov: 50 }}
+      >
+        <ambientLight intensity={0.4} />
+        <directionalLight position={[5, 5, 5]} intensity={0.6} />
+        <FloatingSkillsElements />
+      </OptimizedCanvas>
 
       {/* Background gradients */}
       <div className="absolute top-1/4 right-1/4 w-64 h-64 bg-blue-500/10 rounded-full blur-3xl"></div>

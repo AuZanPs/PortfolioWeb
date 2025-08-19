@@ -1,90 +1,90 @@
 // src/sections/ProjectsSection.tsx
 
-import { useState, useRef } from "react";
-import { Canvas, useFrame } from "@react-three/fiber";
+import { useState, useRef, memo } from "react";
+import { useFrame } from "@react-three/fiber";
 import { Box, Sphere, Octahedron } from "@react-three/drei";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import type * as THREE from "three";
+import OptimizedCanvas from "../components/OptimizedCanvas";
+import { useThrottledFrame } from "../utils/performance";
 
 // 3D Background Components
-const FloatingCube = ({ position, rotationSpeed }: { position: [number, number, number], rotationSpeed: number }) => {
+const FloatingCube = memo(({ position, rotationSpeed }: { position: [number, number, number], rotationSpeed: number }) => {
   const meshRef = useRef<THREE.Mesh>(null);
   
-  useFrame((state) => {
+  const throttledFrame = useThrottledFrame((state) => {
     if (meshRef.current) {
       meshRef.current.rotation.x = state.clock.elapsedTime * rotationSpeed;
       meshRef.current.rotation.y = state.clock.elapsedTime * rotationSpeed * 0.8;
       meshRef.current.position.y = position[1] + Math.sin(state.clock.elapsedTime + position[0]) * 0.3;
     }
-  });
+  }, 20);
+
+  useFrame(throttledFrame);
 
   return (
     <Box ref={meshRef} position={position} args={[0.8, 0.8, 0.8]}>
       <meshStandardMaterial color="#60a5fa" wireframe transparent opacity={0.6} />
     </Box>
   );
-};
+});
 
-const FloatingSphere = ({ position, rotationSpeed }: { position: [number, number, number], rotationSpeed: number }) => {
+const FloatingSphere = memo(({ position, rotationSpeed }: { position: [number, number, number], rotationSpeed: number }) => {
   const meshRef = useRef<THREE.Mesh>(null);
   
-  useFrame((state) => {
+  const throttledFrame = useThrottledFrame((state) => {
     if (meshRef.current) {
       meshRef.current.rotation.x = state.clock.elapsedTime * rotationSpeed;
       meshRef.current.rotation.z = state.clock.elapsedTime * rotationSpeed * 0.5;
       meshRef.current.position.y = position[1] + Math.cos(state.clock.elapsedTime * 0.8 + position[0]) * 0.4;
     }
-  });
+  }, 20);
+
+  useFrame(throttledFrame);
 
   return (
-    <Sphere ref={meshRef} position={position} args={[0.6, 16, 16]}>
+    <Sphere ref={meshRef} position={position} args={[0.6, 12, 12]}>
       <meshStandardMaterial color="#c084fc" wireframe transparent opacity={0.5} />
     </Sphere>
   );
-};
+});
 
-const FloatingOctahedron = ({ position, rotationSpeed }: { position: [number, number, number], rotationSpeed: number }) => {
+const FloatingOctahedron = memo(({ position, rotationSpeed }: { position: [number, number, number], rotationSpeed: number }) => {
   const meshRef = useRef<THREE.Mesh>(null);
   
-  useFrame((state) => {
+  const throttledFrame = useThrottledFrame((state) => {
     if (meshRef.current) {
       meshRef.current.rotation.y = state.clock.elapsedTime * rotationSpeed;
       meshRef.current.rotation.z = state.clock.elapsedTime * rotationSpeed * 0.6;
       meshRef.current.position.y = position[1] + Math.sin(state.clock.elapsedTime * 1.2 + position[0]) * 0.2;
     }
-  });
+  }, 20);
+
+  useFrame(throttledFrame);
 
   return (
     <Octahedron ref={meshRef} position={position} args={[0.7]}>
       <meshStandardMaterial color="#f87171" wireframe transparent opacity={0.4} />
     </Octahedron>
   );
-};
+});
 
-const ThreeBackground = () => {
+const ThreeBackground = memo(() => {
   return (
-    <Canvas 
-      camera={{ position: [0, 0, 10], fov: 50 }} 
-      style={{ pointerEvents: 'none' }}
-      dpr={[1, 1.5]} // Limit device pixel ratio for better performance
-      performance={{ min: 0.5 }} // Lower performance threshold
-    >
+    <>
       <ambientLight intensity={0.3} />
       <directionalLight position={[5, 5, 5]} intensity={0.5} />
       
-      {/* Reduced number of floating geometric shapes for better performance */}
+      {/* Further reduced floating elements for optimal performance */}
       <FloatingCube position={[-4, 2, -2]} rotationSpeed={0.2} />
       <FloatingCube position={[4, -1, -3]} rotationSpeed={0.15} />
       
       <FloatingSphere position={[-3, -2, -1]} rotationSpeed={0.25} />
-      <FloatingSphere position={[3, 3, -2]} rotationSpeed={0.2} />
       
       <FloatingOctahedron position={[-1, 3, -3]} rotationSpeed={0.2} />
-      <FloatingOctahedron position={[2, -3, -1]} rotationSpeed={0.18} />
-      {/* Removed one octahedron to improve performance */}
-    </Canvas>
+    </>
   );
-};
+});
 
 const ProjectsSection = () => {
   const [currentProject, setCurrentProject] = useState(0);
@@ -121,9 +121,12 @@ const ProjectsSection = () => {
   return (
     <section id="projects" className="py-20 relative overflow-hidden">
       {/* 3D Background */}
-      <div className="absolute inset-0 opacity-30 -z-10">
+      <OptimizedCanvas 
+        className="absolute inset-0 opacity-30 -z-10"
+        camera={{ position: [0, 0, 10], fov: 50 }}
+      >
         <ThreeBackground />
-      </div>
+      </OptimizedCanvas>
       
       {/* Additional background gradients */}
       <div className="absolute top-1/4 left-1/4 w-64 h-64 bg-blue-500/10 rounded-full blur-3xl"></div>

@@ -1,24 +1,36 @@
 // src/sections/HeroSection.tsx
 
-import { useRef } from "react";
+import { useRef, memo } from "react";
 import type React from "react";
-import { Canvas, useFrame } from "@react-three/fiber";
+import { useFrame } from "@react-three/fiber";
 import { Sphere, MeshDistortMaterial, Box, Octahedron } from "@react-three/drei";
 import { ArrowDown, Code } from "lucide-react";
 import type * as THREE from "three";
+import OptimizedCanvas from "../components/OptimizedCanvas";
+import { useThrottledFrame, getQualitySettings } from "../utils/performance";
 
-const AnimatedSphere = () => {
+const AnimatedSphere = memo(() => {
   const meshRef = useRef<THREE.Mesh>(null);
-
-  useFrame((state) => {
+  const qualitySettings = getQualitySettings();
+  
+  const throttledFrame = useThrottledFrame((state) => {
     if (meshRef.current) {
       meshRef.current.rotation.x = state.clock.elapsedTime * 0.2;
       meshRef.current.rotation.y = state.clock.elapsedTime * 0.3;
     }
-  });
+  }, 30); // 30 FPS for smooth but efficient animation
+
+  useFrame(throttledFrame);
+
+  // Reduce geometry complexity based on device performance
+  const sphereArgs: [number, number, number] = qualitySettings.geometryDetail === 'high' 
+    ? [1, 64, 128] 
+    : qualitySettings.geometryDetail === 'medium' 
+    ? [1, 32, 64] 
+    : [1, 16, 32];
 
   return (
-    <Sphere ref={meshRef} args={[1, 100, 200]} scale={2}>
+    <Sphere ref={meshRef} args={sphereArgs} scale={2}>
       <MeshDistortMaterial
         color="#3b82f6"
         attach="material"
@@ -29,44 +41,48 @@ const AnimatedSphere = () => {
       />
     </Sphere>
   );
-};
+});
 
 // Additional floating elements for Hero
-const FloatingCube = ({ position }: { position: [number, number, number] }) => {
+const FloatingCube = memo(({ position }: { position: [number, number, number] }) => {
   const meshRef = useRef<THREE.Mesh>(null);
   
-  useFrame((state) => {
+  const throttledFrame = useThrottledFrame((state) => {
     if (meshRef.current) {
       meshRef.current.rotation.x = state.clock.elapsedTime * 0.1;
       meshRef.current.rotation.y = state.clock.elapsedTime * 0.15;
       meshRef.current.position.y = position[1] + Math.sin(state.clock.elapsedTime * 0.8 + position[0]) * 0.3;
     }
-  });
+  }, 20); // Lower FPS for floating elements
+
+  useFrame(throttledFrame);
 
   return (
     <Box ref={meshRef} position={position} args={[0.4, 0.4, 0.4]}>
       <meshStandardMaterial color="#60a5fa" wireframe transparent opacity={0.4} />
     </Box>
   );
-};
+});
 
-const FloatingOctahedron = ({ position }: { position: [number, number, number] }) => {
+const FloatingOctahedron = memo(({ position }: { position: [number, number, number] }) => {
   const meshRef = useRef<THREE.Mesh>(null);
   
-  useFrame((state) => {
+  const throttledFrame = useThrottledFrame((state) => {
     if (meshRef.current) {
       meshRef.current.rotation.y = state.clock.elapsedTime * 0.12;
       meshRef.current.rotation.z = state.clock.elapsedTime * 0.08;
       meshRef.current.position.y = position[1] + Math.cos(state.clock.elapsedTime * 0.6 + position[0]) * 0.2;
     }
-  });
+  }, 20); // Lower FPS for floating elements
+
+  useFrame(throttledFrame);
 
   return (
     <Octahedron ref={meshRef} position={position} args={[0.3]}>
       <meshStandardMaterial color="#c084fc" wireframe transparent opacity={0.3} />
     </Octahedron>
   );
-};
+});
 
 const HeroSection = () => {
   // The smooth scroll handler function, copied from the Navbar
@@ -85,20 +101,20 @@ const HeroSection = () => {
   return (
     <section id="home" className="min-h-screen flex items-center justify-center relative overflow-hidden pt-20">
       {/* Background 3D Element */}
-      <div className="absolute inset-0 opacity-20">
-        <Canvas camera={{ position: [0, 0, 5] }}>
-          <ambientLight intensity={0.5} />
-          <directionalLight position={[10, 10, 5]} intensity={1} />
-          <AnimatedSphere />
-          
-          {/* Additional floating elements */}
-          <FloatingCube position={[-3, 2, -1]} />
-          <FloatingCube position={[3, -1, -2]} />
-          <FloatingOctahedron position={[-2, -2, 1]} />
-          <FloatingOctahedron position={[2, 3, 0]} />
-          <FloatingOctahedron position={[4, 1, -3]} />
-        </Canvas>
-      </div>
+      <OptimizedCanvas 
+        className="absolute inset-0 opacity-20"
+        camera={{ position: [0, 0, 5] }}
+      >
+        <ambientLight intensity={0.5} />
+        <directionalLight position={[10, 10, 5]} intensity={1} />
+        <AnimatedSphere />
+        
+        {/* Reduced floating elements for better performance */}
+        <FloatingCube position={[-3, 2, -1]} />
+        <FloatingCube position={[3, -1, -2]} />
+        <FloatingOctahedron position={[-2, -2, 1]} />
+        <FloatingOctahedron position={[2, 3, 0]} />
+      </OptimizedCanvas>
 
       {/* Background Gradients */}
       <div className="absolute top-1/4 left-1/4 w-64 h-64 bg-blue-500/20 rounded-full blur-3xl"></div>
