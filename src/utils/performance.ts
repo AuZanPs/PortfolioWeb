@@ -118,21 +118,71 @@ export const getQualitySettings = () => {
   return settings[performance];
 };
 
-// Throttled animation frame
+// Throttled animation frame with adaptive FPS
 export const useThrottledFrame = (callback: (state: any) => void, fps: number = 30) => {
   const callbackRef = useRef(callback);
   const lastTimeRef = useRef(0);
-  const frameInterval = 1000 / fps;
+  const performanceRef = useRef(getDevicePerformance());
 
   callbackRef.current = callback;
 
   return (state: any) => {
     const currentTime = performance.now();
-    if (currentTime - lastTimeRef.current >= frameInterval) {
+    
+    // Adaptive frame rate based on device performance
+    let adaptiveFps = fps;
+    if (performanceRef.current === 'low') {
+      adaptiveFps = Math.max(15, fps * 0.5);
+    } else if (performanceRef.current === 'medium') {
+      adaptiveFps = Math.max(20, fps * 0.7);
+    }
+    
+    const adaptiveInterval = 1000 / adaptiveFps;
+    
+    if (currentTime - lastTimeRef.current >= adaptiveInterval) {
       callbackRef.current(state);
       lastTimeRef.current = currentTime;
     }
   };
+};
+
+// Intersection observer with performance optimizations
+export const useOptimizedIntersectionObserver = (options: IntersectionObserverInit = {}) => {
+  const [isIntersecting, setIsIntersecting] = useState(false);
+  const [hasIntersected, setHasIntersected] = useState(false);
+  const elementRef = useRef<HTMLDivElement>(null);
+  const observerRef = useRef<IntersectionObserver | null>(null);
+
+  useEffect(() => {
+    const element = elementRef.current;
+    if (!element) return;
+
+    // Use a single observer instance for better performance
+    if (!observerRef.current) {
+      observerRef.current = new IntersectionObserver(([entry]) => {
+        const isVisible = entry.isIntersecting;
+        setIsIntersecting(isVisible);
+        
+        if (isVisible && !hasIntersected) {
+          setHasIntersected(true);
+        }
+      }, {
+        threshold: 0.05,
+        rootMargin: '100px',
+        ...options,
+      });
+    }
+
+    observerRef.current.observe(element);
+
+    return () => {
+      if (observerRef.current && element) {
+        observerRef.current.unobserve(element);
+      }
+    };
+  }, [hasIntersected, options]);
+
+  return { elementRef, isIntersecting, hasIntersected };
 };
 
 // Memory usage monitor

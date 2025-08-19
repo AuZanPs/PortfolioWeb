@@ -11,16 +11,59 @@ export default defineConfig({
   build: {
     rollupOptions: {
       output: {
-        manualChunks: {
-          vendor: ['react', 'react-dom'],
-          three: ['three', '@react-three/fiber', '@react-three/drei'],
-          ui: ['lucide-react'],
-          email: ['@emailjs/browser']
+        manualChunks: (id) => {
+          // React ecosystem
+          if (id.includes('react') || id.includes('react-dom')) {
+            return 'react-vendor';
+          }
+          
+          // Three.js core
+          if (id.includes('three') && !id.includes('@react-three')) {
+            return 'three-core';
+          }
+          
+          // React Three Fiber
+          if (id.includes('@react-three/fiber')) {
+            return 'r3f';
+          }
+          
+          // React Three Drei (split by functionality)
+          if (id.includes('@react-three/drei')) {
+            if (id.includes('shapes') || id.includes('Sphere') || id.includes('Box') || id.includes('Octahedron')) {
+              return 'drei-shapes';
+            }
+            if (id.includes('materials') || id.includes('MeshDistortMaterial')) {
+              return 'drei-materials';
+            }
+            return 'drei-utils';
+          }
+          
+          // UI components
+          if (id.includes('lucide-react')) {
+            return 'icons';
+          }
+          
+          // Email service
+          if (id.includes('@emailjs/browser')) {
+            return 'email';
+          }
+          
+          // Performance utilities
+          if (id.includes('src/utils/performance')) {
+            return 'performance';
+          }
+          
+          // Node modules (other)
+          if (id.includes('node_modules')) {
+            return 'vendor';
+          }
         }
       }
     },
-    chunkSizeWarningLimit: 1000,
+    chunkSizeWarningLimit: 500, // Reduced chunk size limit
     minify: 'terser',
+    target: 'es2020',
+    sourcemap: false, // Disable sourcemaps for production
   },
   server: {
     hmr: {

@@ -85,12 +85,29 @@ body {
   }
 
   .floating-element {
-    transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-    will-change: transform;
+    transition: transform 0.2s ease-out;
+    will-change: auto; /* Only set will-change when needed */
   }
 
   .floating-element:hover {
-    transform: translateY(-4px) scale(1.02);
+    transform: translateY(-2px);
+    will-change: transform;
+  }
+
+  /* High performance hover states */
+  .hover-lift {
+    transition: transform 0.15s ease-out;
+  }
+
+  .hover-lift:hover {
+    transform: translateY(-1px);
+  }
+
+  /* Optimized glassmorphism for better performance */
+  .glass-light {
+    @apply bg-white/5 border border-white/10;
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
   }
 
   /* Optimized blur backgrounds */
