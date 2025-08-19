@@ -1,6 +1,6 @@
 // src/App.tsx
 
-import { Suspense, lazy } from 'react';
+import { Suspense, lazy, useEffect } from 'react';
 import Navbar from './components/Navbar';
 import Footer from './components/Footer';
 import HeroSection from './sections/HeroSection';
@@ -23,6 +23,22 @@ const SectionFallback = () => (
 );
 
 function App() {
+  useEffect(() => {
+    // Initialize preloader after React has mounted
+    const initPreloader = async () => {
+      try {
+        const { initializePerformanceOptimizations } = await import('./utils/preloader');
+        initializePerformanceOptimizations();
+      } catch (error) {
+        console.warn('Preloader initialization failed:', error);
+      }
+    };
+    
+    // Delay initialization to prevent blocking
+    const timer = setTimeout(initPreloader, 100);
+    return () => clearTimeout(timer);
+  }, []);
+
   return (
     <div className="bg-gray-50 text-gray-900">
       <PerformanceMonitor />

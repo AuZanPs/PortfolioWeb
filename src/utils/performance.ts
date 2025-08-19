@@ -40,22 +40,34 @@ export const useIntersectionObserver = (options: IntersectionObserverInit = {}) 
 
   useEffect(() => {
     const element = elementRef.current;
-    if (!element) return;
+    if (!element || typeof IntersectionObserver === 'undefined') {
+      // Fallback for environments without IntersectionObserver
+      setIsIntersecting(true);
+      setHasIntersected(true);
+      return;
+    }
 
-    const observer = new IntersectionObserver(([entry]) => {
-      setIsIntersecting(entry.isIntersecting);
-      if (entry.isIntersecting && !hasIntersected) {
-        setHasIntersected(true);
-      }
-    }, {
-      threshold: 0.1,
-      rootMargin: '50px',
-      ...options,
-    });
+    try {
+      const observer = new IntersectionObserver(([entry]) => {
+        setIsIntersecting(entry.isIntersecting);
+        if (entry.isIntersecting && !hasIntersected) {
+          setHasIntersected(true);
+        }
+      }, {
+        threshold: 0.1,
+        rootMargin: '50px',
+        ...options,
+      });
 
-    observer.observe(element);
+      observer.observe(element);
 
-    return () => observer.disconnect();
+      return () => observer.disconnect();
+    } catch (error) {
+      console.warn('IntersectionObserver failed:', error);
+      // Fallback - assume element is visible
+      setIsIntersecting(true);
+      setHasIntersected(true);
+    }
   }, [hasIntersected, options]);
 
   return { elementRef, isIntersecting, hasIntersected };
@@ -63,25 +75,35 @@ export const useIntersectionObserver = (options: IntersectionObserverInit = {}) 
 
 // Device performance detection
 export const getDevicePerformance = () => {
-  const canvas = document.createElement('canvas');
-  const gl = canvas.getContext('webgl') || canvas.getContext('experimental-webgl') as WebGLRenderingContext | null;
-  
-  if (!gl) return 'low';
-  
-  const debugInfo = gl.getExtension('WEBGL_debug_renderer_info');
-  const renderer = debugInfo ? gl.getParameter((debugInfo as any).UNMASKED_RENDERER_WEBGL) : '';
-  
-  // Memory check
-  const memory = (navigator as any).deviceMemory || 4;
-  const cores = navigator.hardwareConcurrency || 4;
-  
-  if (memory >= 8 && cores >= 8 && typeof renderer === 'string' && !renderer.toLowerCase().includes('intel')) {
-    return 'high';
-  } else if (memory >= 4 && cores >= 4) {
+  // Safety check for browser environment
+  if (typeof document === 'undefined' || typeof navigator === 'undefined') {
     return 'medium';
   }
-  
-  return 'low';
+
+  try {
+    const canvas = document.createElement('canvas');
+    const gl = canvas.getContext('webgl') || canvas.getContext('experimental-webgl') as WebGLRenderingContext | null;
+    
+    if (!gl) return 'low';
+    
+    const debugInfo = gl.getExtension('WEBGL_debug_renderer_info');
+    const renderer = debugInfo ? gl.getParameter((debugInfo as any).UNMASKED_RENDERER_WEBGL) : '';
+    
+    // Memory check
+    const memory = (navigator as any).deviceMemory || 4;
+    const cores = navigator.hardwareConcurrency || 4;
+    
+    if (memory >= 8 && cores >= 8 && typeof renderer === 'string' && !renderer.toLowerCase().includes('intel')) {
+      return 'high';
+    } else if (memory >= 4 && cores >= 4) {
+      return 'medium';
+    }
+    
+    return 'low';
+  } catch (error) {
+    console.warn('Device performance detection failed:', error);
+    return 'medium';
+  }
 };
 
 // Adaptive quality settings based on device performance

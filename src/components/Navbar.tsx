@@ -9,8 +9,13 @@ const Navbar = memo(() => {
   const [scrolled, setScrolled] = useState(false);
   const [visible, setVisible] = useState(true);
 
-  // Memoize DOM element reference
-  const heroSectionRef = useMemo(() => document.getElementById("home"), []);
+  // Safely get DOM element reference
+  const heroSectionRef = useMemo(() => {
+    if (typeof document !== 'undefined') {
+      return document.getElementById("home");
+    }
+    return null;
+  }, []);
 
   const handleScroll = useCallback(() => {
     const currentScrollY = window.scrollY;
