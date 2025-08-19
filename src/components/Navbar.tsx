@@ -1,10 +1,9 @@
 // src/components/Navbar.tsx
 
-import { useState, useEffect, useCallback, useMemo, memo } from "react";
-import type React from "react";
+import { useState, useEffect, useCallback, useMemo } from "react";
 import { Menu, X, Home, User, Code, Briefcase, Mail } from "lucide-react";
 
-const Navbar = memo(() => {
+const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const [visible, setVisible] = useState(true);
@@ -67,7 +66,7 @@ const Navbar = memo(() => {
   ], []);
 
   // Memoize smooth scroll handler
-  const handleSmoothScroll = useCallback((e: React.MouseEvent<HTMLAnchorElement>, href: string) => {
+  const handleSmoothScroll = useCallback((e: any, href: string) => {
     e.preventDefault();
     const targetId = href.replace("#", "");
     const targetElement = document.getElementById(targetId);
@@ -155,8 +154,6 @@ const Navbar = memo(() => {
       </nav>
     </>
   );
-});
-
-Navbar.displayName = 'Navbar';
+};
 
 export default Navbar;

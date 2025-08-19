@@ -1,9 +1,9 @@
 // src/components/Footer.tsx
 
-import { memo, useMemo } from "react";
+import { useMemo } from "react";
 import { Github, Linkedin, Mail, Code, Zap, Moon } from "lucide-react";
 
-const Footer = memo(() => {
+const Footer = () => {
   const socialLinks = useMemo(() => [
     { icon: Github, href: "https://github.com/AuZanPs", label: "GitHub", color: "hover:text-gray-800" },
     { icon: Linkedin, href: "https://www.linkedin.com/in/auzan-putra-siregar-20b2951a6/", label: "LinkedIn", color: "hover:text-blue-600" },
@@ -119,8 +119,6 @@ const Footer = memo(() => {
       </div>
     </footer>
   );
-});
-
-Footer.displayName = 'Footer';
+};
 
 export default Footer;

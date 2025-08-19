@@ -1,9 +1,9 @@
 // src/components/PerformanceMonitor.tsx
 
-import { useEffect, useState, memo, useMemo } from 'react';
+import { useEffect, useState, useMemo } from 'react';
 import { usePerformanceMonitor, useMemoryMonitor } from '../utils/performance';
 
-const PerformanceMonitor = memo(() => {
+const PerformanceMonitor = () => {
   const fps = usePerformanceMonitor();
   const memory = useMemoryMonitor();
   const [isVisible, setIsVisible] = useState(false);
@@ -61,8 +61,6 @@ const PerformanceMonitor = memo(() => {
       </div>
     </div>
   );
-});
-
-PerformanceMonitor.displayName = 'PerformanceMonitor';
+};
 
 export default PerformanceMonitor;
