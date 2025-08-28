@@ -4,7 +4,7 @@ import { useRef, memo } from "react";
 import type React from "react";
 import { useFrame } from "@react-three/fiber";
 import { Sphere, MeshDistortMaterial, Box, Octahedron } from "@react-three/drei";
-import { ArrowDown, Code } from "lucide-react";
+import { ArrowDown, Code, Download } from "lucide-react";
 import type * as THREE from "three";
 import OptimizedCanvas from "../components/OptimizedCanvas";
 import { useThrottledFrame, getQualitySettings } from "../utils/performance";
@@ -143,6 +143,14 @@ const HeroSection = () => {
               >
                 <Code size={20} className="group-hover:scale-110 transition-transform duration-300" />
                 View My Work
+              </a>
+              <a
+                href="/Auzan_Putra_CV.pdf"
+                download
+                className="glass px-8 py-4 rounded-full hover:bg-white/20 transition-all duration-300 hover:scale-105 flex items-center gap-2 group"
+              >
+                <Download size={20} className="group-hover:scale-110 transition-transform duration-300" />
+                Download CV
               </a>
             </div>
           </div>

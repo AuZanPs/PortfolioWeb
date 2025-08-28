@@ -1,7 +1,7 @@
 // src/components/Navbar.tsx
 
 import { useState, useMemo, useCallback } from "react";
-import { Menu, X, Home, User, Code, Briefcase, Mail } from "lucide-react";
+import { Menu, X, Home, User, Code, Briefcase, Mail, LayoutGrid  } from "lucide-react";
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -10,8 +10,9 @@ const Navbar = () => {
   const navItems = useMemo(() => [
     { name: "Home", href: "#home", icon: Home },
     { name: "About", href: "#about", icon: User },
+    { name: "Experience", href: "#experience", icon: Briefcase },
     { name: "Skills", href: "#skills", icon: Code },
-    { name: "Projects", href: "#projects", icon: Briefcase },
+    { name: "Projects", href: "#projects", icon: LayoutGrid  },
     { name: "Contact", href: "#contact", icon: Mail },
   ], []);
 
