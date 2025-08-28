@@ -117,6 +117,7 @@ const ExperienceSection = () => {
       <OptimizedCanvas 
         className="absolute inset-0 opacity-30 -z-10"
         camera={{ position: [0, 0, 10], fov: 50 }}
+        dpr={[1, 1.5]}
       >
         <ThreeBackground />
       </OptimizedCanvas>

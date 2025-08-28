@@ -110,6 +110,7 @@ const ContactSection = () => {
       <OptimizedCanvas 
         className="absolute inset-0 opacity-25 -z-10"
         camera={{ position: [0, 0, 8], fov: 50 }}
+        dpr={[1, 1.5]}
       >
         <ambientLight intensity={0.4} />
         <directionalLight position={[5, 5, 5]} intensity={0.6} />

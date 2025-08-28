@@ -3,7 +3,7 @@
 import { useRef, memo } from "react";
 import { useFrame } from "@react-three/fiber";
 import { Box, Sphere, Octahedron } from "@react-three/drei";
-import { BrainCircuit, BoxIcon , KeyRound } from "lucide-react";
+import { BrainCircuit, KeyRound, Shirt } from "lucide-react";
 import type * as THREE from "three";
 import OptimizedCanvas from "../components/OptimizedCanvas";
 import { useThrottledFrame } from "../utils/performance";
@@ -95,12 +95,12 @@ const ProjectsSection = () => {
       description: "Developed an intelligent AI chatbot to provide users with reliable health and medical information, leveraging the Gemini API for context-aware responses.",
       technologies: ["Laravel", "Gemini API", "Prompting"],
     },
-    {
+        {
       id: 2,
-      title: "3D Animation: Waiting At the Stop",
-      icon: "Cube",
-      description: "Produced a complete 3D animated scene titled 'Waiting At the Stop' to demonstrate end-to-end animation skills. The project involved character posing, environment design, and the creation of numerous custom 3D assets from scratch.",
-      technologies: ["Blender", "3D Moddeling", "Assets Creation"],
+      title: "FitMatch - AI Wardrobe Stylist",
+      icon: "Shirt",
+      description: "Architected a full-stack, AI-powered wardrobe stylist to provide personalized outfit recommendations. The application leverages Google's Gemini AI for intelligent image analysis and styling suggestions.",
+      technologies: ["React (TS)", "Supabase", "Gemini AI"],
     },
     {
       id: 3,
@@ -117,6 +117,7 @@ const ProjectsSection = () => {
       <OptimizedCanvas 
         className="absolute inset-0 opacity-30 -z-10"
         camera={{ position: [0, 0, 10], fov: 50 }}
+        dpr={[1, 1.5]}
       >
         <ThreeBackground />
       </OptimizedCanvas>
@@ -138,8 +139,8 @@ const ProjectsSection = () => {
           {projects.map((project) => (
             <div key={project.id} className="glass p-6 rounded-2xl floating-element">
               <div className="flex justify-center mb-6">
-                {project.icon === "BrainCircuit" && <BrainCircuit size={48} className="text-blue-400/70" />}
-                {project.icon === "Cube" && <BoxIcon size={48} className="text-purple-400/70" />}
+                {project.icon === "Shirt" && <Shirt size={48} className="text-blue-400/70" />}
+                {project.icon === "BrainCircuit" && <BrainCircuit size={48} className="text-purple-400/70" />}
                 {project.icon === "KeyRound" && <KeyRound size={48} className="text-emerald-400/70" />}
               </div>
               <h3 className="text-2xl font-bold text-gradient-accent mb-4 text-center">{project.title}</h3>
