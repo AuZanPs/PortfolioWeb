@@ -105,10 +105,10 @@ const AboutSection = () => {
           <div className="glass p-8 rounded-2xl floating-element h-full bg-gradient-to-br from-blue-500/10 to-purple-500/10">
             <h3 className="text-2xl font-bold text-gradient-accent mb-4">My Journey</h3>
             <p className="text-slate-600 mb-4 leading-relaxed">
-              I'm at the beginning of my journey as a UI/UX designer, excited to shape how people interact with technology. I am dedicated to learning the principles of user-centered design and am currently honing my skills in creating effective and elegant solutions. With a background in frontend technologies, I bring a practical understanding of what it takes to bring a design to life on the web.
+              As an Information Technology student, I'm at the start of my journey to become a full-stack developer. I am dedicated to mastering the entire lifecycle of a digital product—from a creative idea to a fully deployed application. With a foundation in both frontend and backend technologies like React, TypeScript, and Node.js, I bring a practical understanding of what it takes to bring a complex solution to life on the web.
             </p>
             <p className="text-slate-600 leading-relaxed">
-              I thrive in collaborative environments and am always eager to learn from experienced mentors and peers. My goal is to apply my growing skill set to meaningful projects, continuously pushing my creative boundaries to build products that are not only beautiful but also intuitive and accessible to all users.            </p>
+              I thrive in collaborative environments and have learned so much from my experience as a project lead. I'm always eager to learn from experienced peers and mentors. My goal is to apply my growing skill set to meaningful projects, pushing my creative and technical boundaries to build products that are not only powerful but also intuitive and user-friendly.</p>
           </div>
 
           <div className="grid gap-4">

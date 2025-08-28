@@ -131,7 +131,7 @@ const HeroSection = () => {
             </h1>
 
             <p className="text-lg md:text-xl text-slate-600 mb-15 max-w-2xl mx-auto leading-relaxed">
-            Passionate about creating intuitive and beautiful digital experiences. I'm shaping my journey as a UI/UX designer, using my frontend skills to bridge the gap between thoughtful design and seamless user interaction.      
+            Building Intuitive Digital Experiences. I'm a developer who takes projects from concept to deployment using modern web technologies.      
             </p>
 
             <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">

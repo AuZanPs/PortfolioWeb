@@ -40,7 +40,7 @@ const Footer = () => {
             <div className="glass p-6 rounded-2xl">
               <h3 className="text-3xl font-bold text-gradient-accent mb-4">Frontend Developer</h3>
               <p className="text-slate-600 mb-6 leading-relaxed">
-                Passionate about creating intuitive and beautiful digital experiences. I'm shaping my journey as a UI/UX designer, using my frontend skills to bridge the gap between thoughtful design and seamless user interaction.
+                Crafting digital experiences from concept to code.
               </p>
               <div className="flex space-x-4">
                 {socialLinks.map((link) => (

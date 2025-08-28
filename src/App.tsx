@@ -10,6 +10,7 @@ import PerformanceMonitor from './components/PerformanceMonitor';
 const AboutSection = lazy(() => import('./sections/AboutSection'));
 const SkillsSection = lazy(() => import('./sections/SkillsSection'));
 const ProjectsSection = lazy(() => import('./sections/ProjectsSection'));
+const ExperienceSection = lazy(() => import('./sections/ExperienceSection'));
 const ContactSection = lazy(() => import('./sections/ContactSection'));
 
 // Loading fallback component
@@ -45,6 +46,9 @@ function App() {
       <HeroSection />
       <Suspense fallback={<SectionFallback />}>
         <AboutSection />
+      </Suspense>
+      <Suspense fallback={<SectionFallback />}>
+        <ExperienceSection />
       </Suspense>
       <Suspense fallback={<SectionFallback />}>
         <SkillsSection />

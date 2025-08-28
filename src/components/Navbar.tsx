@@ -1,60 +1,10 @@
 // src/components/Navbar.tsx
 
-import { useState, useEffect, useCallback, useMemo } from "react";
+import { useState, useMemo, useCallback } from "react";
 import { Menu, X, Home, User, Code, Briefcase, Mail } from "lucide-react";
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
-  const [scrolled, setScrolled] = useState(false);
-  const [visible, setVisible] = useState(true);
-
-  // Safely get DOM element reference
-  const heroSectionRef = useMemo(() => {
-    if (typeof document !== 'undefined') {
-      return document.getElementById("home");
-    }
-    return null;
-  }, []);
-
-  const handleScroll = useCallback(() => {
-    const currentScrollY = window.scrollY;
-    
-    // Set scrolled state for background color change
-    setScrolled(currentScrollY > 20);
-
-    // Use cached reference instead of querying DOM every time
-    if (heroSectionRef) {
-      const heroRect = heroSectionRef.getBoundingClientRect();
-      const heroBottom = heroRect.bottom;
-      
-      // Show navbar only when hero section is visible
-      setVisible(heroBottom > -50);
-    }
-  }, [heroSectionRef]);
-
-  useEffect(() => {
-    let ticking = false;
-    let lastScrollY = 0;
-
-    const optimizedScroll = () => {
-      const currentScrollY = window.scrollY;
-      
-      // Skip if scroll difference is too small (micro-optimizations)
-      if (Math.abs(currentScrollY - lastScrollY) < 5) return;
-      
-      if (!ticking) {
-        requestAnimationFrame(() => {
-          handleScroll();
-          ticking = false;
-          lastScrollY = currentScrollY;
-        });
-        ticking = true;
-      }
-    };
-
-    window.addEventListener("scroll", optimizedScroll, { passive: true });
-    return () => window.removeEventListener("scroll", optimizedScroll);
-  }, [handleScroll]);
 
   // Memoize navigation items to prevent recreation
   const navItems = useMemo(() => [
@@ -80,17 +30,10 @@ const Navbar = () => {
 
   return (
     <>
-      {/* Desktop Navbar */}
+      {/* Desktop Navbar - Always visible with glassmorphism */}
       <nav
-        className={`fixed left-1/2 -translate-x-1/2 z-50 transition-all duration-500 ease-out rounded-full px-6 py-3 hidden md:block ${
-          // Controls visibility and position - only show when in hero section
-          visible ? "top-6 opacity-100 translate-y-0" : "-top-20 opacity-0 translate-y-[-10px]"
-        } ${
-          // Controls background style based on scroll position
-          scrolled ? "glass-purple shadow-xl" : "bg-white/20 backdrop-blur-md"
-        }`}
+        className="fixed left-1/2 -translate-x-1/2 top-6 z-50 transition-all duration-500 ease-out rounded-full px-6 py-3 hidden md:block opacity-100 glass-purple shadow-xl"
         style={{
-          willChange: visible ? 'transform, opacity' : 'auto',
           backfaceVisibility: 'hidden',
           perspective: 1000
         }}
@@ -101,9 +44,7 @@ const Navbar = () => {
               key={item.name}
               href={item.href}
               onClick={(e) => handleSmoothScroll(e, item.href)}
-              className={`group transition-colors duration-200 rounded-full px-3 py-2 text-sm font-medium hover:bg-white/20 ${
-                scrolled ? "text-white" : "text-slate-700"
-              }`}
+              className="group transition-colors duration-200 rounded-full px-3 py-2 text-sm font-medium hover:bg-white/20 text-white"
               aria-label={item.name}
             >
               <item.icon size={20} />
@@ -112,13 +53,10 @@ const Navbar = () => {
         </div>
       </nav>
 
-      {/* Mobile Navbar - keep it always visible for mobile usability */}
+      {/* Mobile Navbar - always visible */}
       <nav 
-        className={`fixed top-6 right-6 z-50 md:hidden transition-all duration-500 ease-out ${
-          visible ? "opacity-100 scale-100" : "opacity-50 scale-95"
-        }`}
+        className="fixed top-6 right-6 z-50 md:hidden transition-all duration-500 ease-out opacity-100 scale-100"
         style={{
-          willChange: visible ? 'transform, opacity' : 'auto',
           backfaceVisibility: 'hidden'
         }}
       >

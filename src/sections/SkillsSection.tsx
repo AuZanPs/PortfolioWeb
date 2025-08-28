@@ -1,7 +1,7 @@
 import { useState, useRef, memo } from "react"
 import { useFrame } from "@react-three/fiber"
 import { Sphere, Box, Octahedron } from "@react-three/drei"
-import { Code, User, Wrench } from "lucide-react"
+import { Code, Wrench, Star } from "lucide-react"
 import type * as THREE from "three"
 import OptimizedCanvas from "../components/OptimizedCanvas"
 import { useThrottledFrame } from "../utils/performance"
@@ -47,39 +47,39 @@ const FloatingSkillsElements = memo(() => {
 });
 
 const SkillsSection = () => {
-  const [activeCategory, setActiveCategory] = useState<"hard" | "soft" | "tools">("hard")
+  const [activeCategory, setActiveCategory] = useState<"hard" | "tools" | "specializations">("hard")
 
   const skillCategories = {
     hard: [
-      { name: "React", description: "Building interactive user interfaces", icon: "⚛️" },
+      { name: "React & Next.js", description: "Building interactive UIs and full-stack apps", icon: "⚛️" },
       { name: "TypeScript", description: "Type-safe JavaScript development", icon: "🔷" },
-      { name: "Next.js", description: "Full-stack React framework", icon: "▲" },
-      { name: "JavaScript", description: "Core web programming language", icon: "🟨" },
-      { name: "HTML/CSS", description: "Web markup and styling", icon: "🌐" },
-      { name: "Node.js", description: "Server-side JavaScript runtime", icon: "🟢" },
-    ],
-    soft: [
-      { name: "Problem Solving", description: "Breaking down complex challenges", icon: "🧩" },
-      { name: "Communication", description: "Clear and effective collaboration", icon: "💬" },
-      { name: "Adaptability", description: "Learning new technologies quickly", icon: "🔄" },
-      { name: "Team Work", description: "Collaborative development approach", icon: "👥" },
-      { name: "Time Management", description: "Meeting deadlines efficiently", icon: "⏰" },
-      { name: "Critical Thinking", description: "Analytical approach to development", icon: "🎯" },
+      { name: "Node.js (Serverless)", description: "Creating backend functions on Vercel", icon: "🟢" },
+      { name: "Component-Based Architecture", description: "Building scalable and maintainable UIs with React", icon: "🧱" },
+      { name: "REST APIs", description: "Designing and consuming APIs", icon: "🔗" },
+      { name: "HTML & CSS", description: "Core web markup and styling", icon: "🌐" },
     ],
     tools: [
-      { name: "VS Code", description: "Primary code editor", icon: "💻" },
       { name: "Git & GitHub", description: "Version control and collaboration", icon: "📚" },
-      { name: "Figma", description: "UI/UX design and prototyping", icon: "🎨" },
-      { name: "Tailwind CSS", description: "Utility-first CSS framework", icon: "🌊" },
-      { name: "Three.js", description: "3D graphics and animations", icon: "🎲" },
+      { name: "Supabase", description: "Backend-as-a-Service platform", icon: "🔥" },
       { name: "Vercel", description: "Deployment and hosting platform", icon: "🚀" },
+      { name: "Tailwind CSS", description: "Utility-first CSS framework", icon: "🌊" },
+      { name: "Vite", description: "Next-generation frontend tooling", icon: "⚡️" },
+      { name: "Three.js", description: "3D graphics and animations", icon: "🎲" },
+    ],
+    specializations: [
+      { name: "AI Integration", description: "Using models like Google Gemini AI", icon: "🤖" },
+      { name: "Full-Stack Architecture", description: "Designing and building end-to-end applications", icon: "🏛️" },
+      { name: "3D Web Graphics", description: "Creating interactive 3D experiences with Three.js", icon: "✨" },
+      { name: "Problem Solving", description: "Breaking down complex challenges", icon: "🧩" },
+      { name: "Communication", description: "Clear and effective collaboration", icon: "💬" },
+      { name: "Adaptability", description: "Learning new technologies quickly", icon: "🌱" },
     ],
   }
 
   const categories = [
     { key: "hard" as const, label: "Hard Skills", icon: Code, color: "from-blue-500/10 to-purple-500/10" },
-    { key: "soft" as const, label: "Soft Skills", icon: User, color: "from-blue-500/10 to-purple-500/10" },
     { key: "tools" as const, label: "Tools", icon: Wrench, color: "from-blue-500/10 to-purple-500/10" },
+    { key: "specializations" as const, label: "Specializations", icon: Star, color: "from-blue-500/10 to-purple-500/10" },
   ]
 
   return (
@@ -103,8 +103,7 @@ const SkillsSection = () => {
           <h2 className="text-4xl md:text-5xl font-bold text-gradient mb-4">Skills & Technologies</h2>
           <div className="w-24 h-1 bg-gradient-to-r from-blue-500 to-purple-600 mx-auto mb-6"></div>
           <p className="text-slate-600 max-w-2xl mx-auto">
-            Here's an overview of my technical expertise, interpersonal abilities, and the tools I use to bring ideas to
-            life.
+            Explore the core technologies, specialized skills, and essential tools I use to build modern web applications.
           </p>
         </div>
 
@@ -155,9 +154,9 @@ const SkillsSection = () => {
           <div className="glass p-6 rounded-2xl inline-block">
             <p className="text-slate-600">
               {activeCategory === "hard" &&
-                "skills i've learned along the way"}
-              {activeCategory === "soft" && "Personal qualities that help me work effectively and grow as a developer."}
+                "My core programming languages, frameworks, and technical concepts."}
               {activeCategory === "tools" && "Essential tools and platforms that power my development workflow."}
+              {activeCategory === "specializations" && "My key areas of expertise, combining advanced technical skills with professional experience."}
             </p>
           </div>
         </div>

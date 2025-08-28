@@ -1,9 +1,9 @@
-// src/sections/ProjectsSection.tsx
+// src/sections/ExperienceSection.tsx
 
 import { useRef, memo } from "react";
 import { useFrame } from "@react-three/fiber";
 import { Box, Sphere, Octahedron } from "@react-three/drei";
-import { BrainCircuit, BoxIcon , KeyRound } from "lucide-react";
+import { Users, MonitorSmartphone, Gamepad2 } from "lucide-react";
 import type * as THREE from "three";
 import OptimizedCanvas from "../components/OptimizedCanvas";
 import { useThrottledFrame } from "../utils/performance";
@@ -86,33 +86,33 @@ const ThreeBackground = memo(() => {
   );
 });
 
-const ProjectsSection = () => {
-  const projects = [
-    {
-      id: 1,
-      title: "Health Care AI chatbot",
-      icon: "BrainCircuit",
-      description: "Developed an intelligent AI chatbot to provide users with reliable health and medical information, leveraging the Gemini API for context-aware responses.",
-      technologies: ["Laravel", "Gemini API", "Prompting"],
-    },
-    {
-      id: 2,
-      title: "3D Animation: Waiting At the Stop",
-      icon: "Cube",
-      description: "Produced a complete 3D animated scene titled 'Waiting At the Stop' to demonstrate end-to-end animation skills. The project involved character posing, environment design, and the creation of numerous custom 3D assets from scratch.",
-      technologies: ["Blender", "3D Moddeling", "Assets Creation"],
-    },
-    {
-      id: 3,
-      title: "Password Maker Web Game",
-      icon: "KeyRound",
-      description: "Built an interactive web-based game that educates users on creating strong, secure passwords. The application provides real-time feedback and clear, visual criteria to help users improve their personal online security habits.",
-      technologies: ["HTML", "CSS", "JavaScript"],
-    },
-  ];
+const ExperienceSection = () => {
+  const experience = {
+    title: "The Cyber Game: An Educational Security Game for Icon+",
+    role: "Project Lead (Frontend & Game Design Focus)",
+    summary: "I led a 10-person team in developing \"The Cyber Game,\" a gamified web platform designed to make learning about cybersecurity engaging and interactive for the employees of Icon+, a subsidiary of Indonesia's state electricity company (PLN). The project successfully transformed traditional training into an immersive learning experience.",
+    contributions: [
+      {
+        icon: "Users",
+        title: "Project Leadership",
+        description: "Guided a 10-person team from client meetings to final delivery, translating feedback into key game design decisions."
+      },
+      {
+        icon: "MonitorSmartphone",
+        title: "Frontend & UI/UX",
+        description: "Oversaw the creation of a responsive and accessible interface using HTML, CSS, & JavaScript with a clean, corporate-friendly aesthetic."
+      },
+      {
+        icon: "Gamepad2",
+        title: "Game Design & Prototyping",
+        description: "Directed the integration of game mechanics with educational content, using Unity to prototype complex interactions and ensure an engaging experience."
+      }
+    ],
+    technologies: ["Golang", "MySQL", "JavaScript", "HTML", "CSS", "Unity"],
+  };
 
   return (
-    <section id="projects" className="py-20 relative overflow-hidden">
+    <section id="experience" className="py-20 relative overflow-hidden">
       {/* 3D Background */}
       <OptimizedCanvas 
         className="absolute inset-0 opacity-30 -z-10"
@@ -129,34 +129,56 @@ const ProjectsSection = () => {
       <div className="container-custom py-16 relative z-10">
         <div className="text-center mb-12">
           <h2 className="text-4xl md:text-5xl font-bold text-gradient mb-4">
-            Projects
+            Professional Experience
           </h2>
           <div className="w-24 h-1 bg-gradient-to-r from-blue-500 to-purple-600 mx-auto"></div>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {projects.map((project) => (
-            <div key={project.id} className="glass p-6 rounded-2xl floating-element">
-              <div className="flex justify-center mb-6">
-                {project.icon === "BrainCircuit" && <BrainCircuit size={48} className="text-blue-400/70" />}
-                {project.icon === "Cube" && <BoxIcon size={48} className="text-purple-400/70" />}
-                {project.icon === "KeyRound" && <KeyRound size={48} className="text-emerald-400/70" />}
+        <div className="glass p-8 rounded-2xl floating-element relative max-w-3xl mx-auto">
+          <div className="text-center">
+            <h3 className="text-3xl font-bold text-gradient-accent mb-4">{experience.title}</h3>
+            <div className="mb-6">
+              <p className="font-bold text-slate-700">
+                {experience.role}
+              </p>
+            </div>
+          </div>
+          
+          <div className="mt-8">
+            <p className="text-slate-600 mb-8 leading-relaxed text-center">{experience.summary}</p>
+            
+            <div className="mb-8">
+              <h4 className="text-xl font-semibold mb-4 text-center">Key Contributions:</h4>
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mt-6">
+                {experience.contributions.map((contribution, index) => (
+                  <div key={index} className="glass p-6 rounded-xl flex flex-col items-center text-center">
+                    <div className="mb-4 text-blue-500">
+                      {contribution.icon === "Users" && <Users size={40} />}
+                      {contribution.icon === "MonitorSmartphone" && <MonitorSmartphone size={40} />}
+                      {contribution.icon === "Gamepad2" && <Gamepad2 size={40} />}
+                    </div>
+                    <h5 className="text-lg font-semibold mb-3 text-gradient-accent">{contribution.title}</h5>
+                    <p className="text-slate-600 text-sm">{contribution.description}</p>
+                  </div>
+                ))}
               </div>
-              <h3 className="text-2xl font-bold text-gradient-accent mb-4 text-center">{project.title}</h3>
-              <p className="text-slate-600 mb-6 leading-relaxed">{project.description}</p>
+            </div>
+            
+            <div className="mb-2">
+              <h4 className="text-xl font-semibold mb-4 text-center">Tech Stack</h4>
               <div className="flex flex-wrap gap-2 justify-center">
-                {project.technologies.map((tech) => (
-                  <span key={tech} className="glass px-3 py-1 rounded-full text-sm text-slate-700">
+                {experience.technologies.map((tech) => (
+                  <span key={tech} className="glass px-3 py-1 rounded-full text-sm text-slate-700 mb-2">
                     {tech}
                   </span>
                 ))}
               </div>
             </div>
-          ))}
+          </div>
         </div>
       </div>
     </section>
   );
 };
 
-export default ProjectsSection;
+export default ExperienceSection;
