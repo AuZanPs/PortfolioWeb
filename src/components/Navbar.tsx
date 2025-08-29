@@ -11,8 +11,8 @@ const Navbar = () => {
     { name: "Home", href: "#home", icon: Home },
     { name: "About", href: "#about", icon: User },
     { name: "Experience", href: "#experience", icon: Briefcase },
-    { name: "Skills", href: "#skills", icon: Code },
-    { name: "Projects", href: "#projects", icon: LayoutGrid  },
+    { name: "Skills", href: "#skills", icon: LayoutGrid },
+    { name: "Projects", href: "#projects", icon: Code },
     { name: "Contact", href: "#contact", icon: Mail },
   ], []);
 
