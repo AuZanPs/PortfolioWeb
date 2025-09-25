@@ -1,7 +1,7 @@
 import { useState, useRef, memo } from "react"
 import { useFrame } from "@react-three/fiber"
 import { Sphere, Box, Octahedron } from "@react-three/drei"
-import { Code, Wrench, Star } from "lucide-react"
+import { Code, Wrench, Star, Atom, FileCode, Circle, Globe, Link, BookOpen, Flame, Rocket, Waves, Zap, Layers, Bot, Building, Sparkles, Puzzle, MessageCircle, Sprout } from "lucide-react"
 import type * as THREE from "three"
 import OptimizedCanvas from "../components/OptimizedCanvas"
 import { useThrottledFrame } from "../utils/performance"
@@ -51,28 +51,28 @@ const SkillsSection = () => {
 
   const skillCategories = {
     hard: [
-      { name: "React & Next.js", description: "Building interactive UIs and full-stack apps", icon: "⚛️" },
-      { name: "TypeScript", description: "Type-safe JavaScript development", icon: "🔷" },
-      { name: "Node.js (Serverless)", description: "Creating backend functions on Vercel", icon: "🟢" },
-      { name: "Component-Based Architecture", description: "Building scalable and maintainable UIs with React", icon: "🧱" },
-      { name: "REST APIs", description: "Designing and consuming APIs", icon: "🔗" },
-      { name: "HTML & CSS", description: "Core web markup and styling", icon: "🌐" },
+      { name: "React & Next.js", description: "Building interactive UIs and full-stack apps", icon: <Atom size={24} className="text-blue-500" /> },
+      { name: "TypeScript", description: "Type-safe JavaScript development", icon: <FileCode size={24} className="text-blue-600" /> },
+      { name: "Node.js (Serverless)", description: "Creating backend functions on Vercel", icon: <Circle size={24} className="text-green-600" /> },
+      { name: "Component-Based Architecture", description: "Building scalable and maintainable UIs with React", icon: <Layers size={24} className="text-purple-600" /> },
+      { name: "REST APIs", description: "Designing and consuming APIs", icon: <Link size={24} className="text-indigo-600" /> },
+      { name: "HTML & CSS", description: "Core web markup and styling", icon: <Globe size={24} className="text-orange-600" /> },
     ],
     tools: [
-      { name: "Git & GitHub", description: "Version control and collaboration", icon: "📚" },
-      { name: "Supabase", description: "Backend-as-a-Service platform", icon: "🔥" },
-      { name: "Vercel", description: "Deployment and hosting platform", icon: "🚀" },
-      { name: "Tailwind CSS", description: "Utility-first CSS framework", icon: "🌊" },
-      { name: "Vite", description: "Next-generation frontend tooling", icon: "⚡️" },
-      { name: "Three.js", description: "3D graphics and animations", icon: "🎲" },
+      { name: "Git & GitHub", description: "Version control and collaboration", icon: <BookOpen size={24} className="text-gray-800" /> },
+      { name: "Supabase", description: "Backend-as-a-Service platform", icon: <Flame size={24} className="text-green-500" /> },
+      { name: "Vercel", description: "Deployment and hosting platform", icon: <Rocket size={24} className="text-black" /> },
+      { name: "Tailwind CSS", description: "Utility-first CSS framework", icon: <Waves size={24} className="text-teal-500" /> },
+      { name: "Vite", description: "Next-generation frontend tooling", icon: <Zap size={24} className="text-yellow-500" /> },
+      { name: "Three.js", description: "3D graphics and animations", icon: <Layers size={24} className="text-purple-500" /> },
     ],
     specializations: [
-      { name: "AI Integration", description: "Using models like Google Gemini AI", icon: "🤖" },
-      { name: "Full-Stack Architecture", description: "Designing and building end-to-end applications", icon: "🏛️" },
-      { name: "3D Web Graphics", description: "Creating interactive 3D experiences with Three.js", icon: "✨" },
-      { name: "Problem Solving", description: "Breaking down complex challenges", icon: "🧩" },
-      { name: "Communication", description: "Clear and effective collaboration", icon: "💬" },
-      { name: "Adaptability", description: "Learning new technologies quickly", icon: "🌱" },
+      { name: "AI Integration", description: "Using models like Google Gemini AI", icon: <Bot size={24} className="text-green-600" /> },
+      { name: "Full-Stack Architecture", description: "Designing and building end-to-end applications", icon: <Building size={24} className="text-gray-700" /> },
+      { name: "3D Web Graphics", description: "Creating interactive 3D experiences with Three.js", icon: <Sparkles size={24} className="text-purple-600" /> },
+      { name: "Problem Solving", description: "Breaking down complex challenges", icon: <Puzzle size={24} className="text-blue-600" /> },
+      { name: "Communication", description: "Clear and effective collaboration", icon: <MessageCircle size={24} className="text-green-600" /> },
+      { name: "Adaptability", description: "Learning new technologies quickly", icon: <Sprout size={24} className="text-green-500" /> },
     ],
   }
 
@@ -136,7 +136,7 @@ const SkillsSection = () => {
               className="glass p-6 rounded-2xl hover:bg-white/30 transition-all duration-300 hover:scale-105 group"
             >
               <div className="flex items-start gap-4">
-                <div className="text-3xl mb-2 group-hover:scale-110 transition-transform duration-300">
+                <div className="mb-2 group-hover:scale-110 transition-transform duration-300">
                   {skill.icon}
                 </div>
                 <div className="flex-1">
