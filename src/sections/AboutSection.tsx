@@ -73,10 +73,10 @@ const FloatingGeometry = memo(() => {
 
 const AboutSection = () => {
   const highlights = [
-    { icon: Code, title: "Clean & Scalable Code", description: "Writing simplistic, time-efficient, and easy-to-use code." },
-    { icon: Palette, title: "UI/UX Design", description: "Creating beautiful and intuitive user interfaces." },
-    { icon: Zap, title: "Performance", description: "Optimizing for speed and a great user experience." },
-    { icon: Users, title: "Collaboration", description: "Working effectively in teams." },
+    { icon: Code, title: "Frontend Development", description: "React, TypeScript, JavaScript (ES6+), HTML5, CSS3, Next.js" },
+    { icon: Palette, title: "UI/UX Design & Tools", description: "Figma, Design Systems, User Research, Prototyping, Tailwind CSS" },
+    { icon: Zap, title: "Performance Engineering", description: "Achieving 97.5/100 PageSpeed scores and WCAG-compliant interfaces" },
+    { icon: Users, title: "Leadership & Collaboration", description: "Project lead experience with cross-functional teams" },
   ];
 
   return (
@@ -106,10 +106,10 @@ const AboutSection = () => {
           <div className="glass p-8 rounded-2xl floating-element h-full bg-gradient-to-br from-blue-500/10 to-purple-500/10">
             <h3 className="text-2xl font-bold text-gradient-accent mb-4">My Journey</h3>
             <p className="text-slate-600 mb-4 leading-relaxed">
-              As an Information Technology student, my journey is focused on becoming a skilled frontend developer, with a passion for bringing creative ideas to life on the web. I am dedicated to mastering the craft of building intuitive user interfaces, while also expanding my knowledge across the entire stack—from a creative concept to a fully deployed application. My foundation in technologies like React, TypeScript, and Node.js gives me a practical understanding of what it takes to build a complete, modern web solution.
+              As a Frontend Developer passionate about creating exceptional user experiences, I specialize in modern React and TypeScript development with a strong focus on UI/UX design. Currently pursuing my Bachelor's in Information Technology at President University, I combine academic knowledge with hands-on experience in building high-performance, accessible web applications.
             </p>
             <p className="text-slate-600 leading-relaxed">
-              I thrive in collaborative environments and have learned so much from my experience as a project lead. I'm always eager to learn from experienced peers and mentors. My goal is to apply my growing skill set to meaningful projects, pushing my creative and technical boundaries to build products that are not only powerful but also intuitive and user-friendly.</p>
+              My expertise spans from user experience optimization—achieving 97.5/100 PageSpeed scores and implementing WCAG-compliant interfaces—to innovative AI-powered features using Google Gemini API. I thrive in collaborative environments, having led a 10-person cross-functional team for PLN Icon Plus, and I'm seeking Frontend Developer internship opportunities with UI/UX growth potential at leading Indonesian tech companies.</p>
           </div>
 
           <div className="grid gap-4">

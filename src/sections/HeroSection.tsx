@@ -131,8 +131,11 @@ const HeroSection = () => {
               <span className="block text-gradient-accent">Putra Siregar</span>
             </h1>
 
-            <p className="text-lg md:text-xl text-slate-600 mb-15 max-w-2xl mx-auto leading-relaxed">
-            Building Intuitive Digital Experiences. I'm a developer who takes projects from concept to deployment using modern web technologies.      
+            <p className="text-lg md:text-xl text-slate-600 mb-8 max-w-2xl mx-auto leading-relaxed">
+              Frontend Developer | UI/UX Focus & React/TypeScript
+            </p>
+            <p className="text-base md:text-lg text-slate-500 mb-15 max-w-3xl mx-auto leading-relaxed">
+              Passionate about creating exceptional user experiences through modern React and TypeScript development. Proven ability to translate design concepts into high-performance, accessible web applications with innovative AI-powered features.
             </p>
 
             <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
@@ -145,7 +148,7 @@ const HeroSection = () => {
                 View My Work
               </a>
               <a
-                href="/Auzan_Putra_CV.pdf"
+                href="/Auzan Putra Siregar Resume 2025.pdf"
                 download
                 className="glass px-8 py-4 rounded-full hover:bg-white/20 transition-all duration-300 hover:scale-105 flex items-center gap-2 group"
               >

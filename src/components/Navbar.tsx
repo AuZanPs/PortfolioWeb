@@ -1,7 +1,7 @@
 // src/components/Navbar.tsx
 
 import { useState, useMemo, useCallback } from "react";
-import { Menu, X, Home, User, Code, Briefcase, Mail, LayoutGrid  } from "lucide-react";
+import { Menu, X, Home, User, Code, Briefcase, Mail, LayoutGrid } from "lucide-react";
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);

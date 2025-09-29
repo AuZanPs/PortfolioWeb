@@ -101,7 +101,7 @@ const ContactSection = () => {
 
   const contactInfo = [
     { icon: Mail, title: "Email", value: "mauzanps@gmail.com", description: "Send me an email anytime!" },
-    { icon: MapPin, title: "Location", value: "Jakarta", description: "Available for remote work" },
+    { icon: MapPin, title: "Location", value: "Jakarta, Indonesia", description: "Available for remote work and internships" },
   ];
 
   return (

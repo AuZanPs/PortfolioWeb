@@ -88,27 +88,28 @@ const ThreeBackground = memo(() => {
 
 const ExperienceSection = () => {
   const experience = {
-    title: "The Cyber Game: An Educational Security Game for Icon+",
-    role: "Project Lead (Frontend & Game Design Focus)",
-    summary: "I led a 10-person team in developing \"The Cyber Game,\" a gamified web platform designed to make learning about cybersecurity engaging and interactive for the employees of Icon+, a subsidiary of Indonesia's state electricity company (PLN). The project successfully transformed traditional training into an immersive learning experience.",
+    title: "Project Lead – PLN Icon Plus",
+    role: "Frontend Developer & Team Lead",
+    period: "01/2025 – 04/2025",
+    summary: "Led a 10-person cross-functional team over 4 months to develop \"The Cyber Game,\" a web-based cybersecurity training application for PLN Icon Plus, successfully delivering a secure and accessible platform for 500+ potential corporate users.",
     contributions: [
       {
         icon: "Users",
-        title: "Project Leadership",
-        description: "Guided a 10-person team from client meetings to final delivery, translating feedback into key game design decisions."
+        title: "Cross-Functional Leadership",
+        description: "Collaborated within a 10-person cross-functional team, coordinating responses to client feedback and ensuring UI/UX improvements aligned with user needs within project timeline."
       },
       {
         icon: "MonitorSmartphone",
-        title: "Frontend & UI/UX",
-        description: "Oversaw the creation of a responsive and accessible interface using HTML, CSS, & JavaScript with a clean, corporate-friendly aesthetic."
+        title: "Accessible Interface Development",
+        description: "Engineered user-friendly and ARIA-compliant interface components, achieving 100% accessibility compliance for corporate training environment."
       },
       {
         icon: "Gamepad2",
-        title: "Game Design & Prototyping",
-        description: "Directed the integration of game mechanics with educational content, using Unity to prototype complex interactions and ensure an engaging experience."
+        title: "Full-Stack Integration",
+        description: "Successfully integrated responsive frontend with Golang RESTful API, delivering secure authentication and session management features."
       }
     ],
-    technologies: ["Golang", "MySQL", "JavaScript", "HTML", "CSS", "Unity"],
+    technologies: ["React", "TypeScript", "Golang", "RESTful API", "ARIA", "Accessibility", "Corporate Training"],
   };
 
   return (
@@ -141,6 +142,9 @@ const ExperienceSection = () => {
             <div className="mb-6">
               <p className="font-bold text-slate-700">
                 {experience.role}
+              </p>
+              <p className="text-slate-500 text-sm mt-1">
+                {experience.period}
               </p>
             </div>
           </div>

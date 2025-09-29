@@ -3,7 +3,7 @@
 import { useRef, memo } from "react";
 import { useFrame } from "@react-three/fiber";
 import { Box, Sphere, Octahedron } from "@react-three/drei";
-import { BrainCircuit, KeyRound, Shirt } from "lucide-react";
+import { BrainCircuit, KeyRound, Shirt, ChefHat, Cloud, ExternalLink, Code } from "lucide-react";
 import type * as THREE from "three";
 import OptimizedCanvas from "../components/OptimizedCanvas";
 import { useThrottledFrame } from "../utils/performance";
@@ -90,24 +90,30 @@ const ProjectsSection = () => {
   const projects = [
     {
       id: 1,
-      title: "Health Care AI chatbot",
-      icon: "BrainCircuit",
-      description: "Developed an intelligent AI chatbot to provide users with reliable health and medical information, leveraging the Gemini API for context-aware responses.",
-      technologies: ["Laravel", "Gemini API", "Prompting"],
-    },
-        {
-      id: 2,
-      title: "FitMatch - AI Wardrobe Stylist",
+      title: "FitMatch: AI-Powered Wardrobe Platform",
       icon: "Shirt",
-      description: "Architected a full-stack, AI-powered wardrobe stylist to provide personalized outfit recommendations. The application leverages Google's Gemini AI for intelligent image analysis and styling suggestions.",
-      technologies: ["React (TS)", "Supabase", "Gemini AI"],
+      description: "Achieved an exceptional user experience with a 97.5/100 PageSpeed score and perfect accessibility compliance. Implemented intelligent user features using the Google Gemini API to enhance the outfit discovery and recommendation experience.",
+      technologies: ["React", "TypeScript", "Google Gemini API", "Responsive Design", "Accessibility"],
+      liveUrl: "https://fitmatch-project-silk.vercel.app/",
+      githubUrl: "https://github.com/AuZanPs/FitMatch-project"
+    },
+    {
+      id: 2,
+      title: "Recipe Discovery: Accessible Windows 98-Themed App",
+      icon: "ChefHat",
+      description: "Scored perfect 100/100 accessibility and SEO scores, demonstrating a commitment to user-centered design. Designed a nostalgic Windows 98 aesthetic while maintaining modern usability standards and comprehensive keyboard navigation.",
+      technologies: ["HTML5", "CSS3", "JavaScript", "Accessibility", "SEO", "Responsive Design"],
+      liveUrl: "https://auzanps.github.io/recipe-discovery-app-98-/",
+      githubUrl: "https://github.com/AuZanPs/recipe-discovery-app-98-"
     },
     {
       id: 3,
-      title: "Password Maker Web Game",
-      icon: "KeyRound",
-      description: "Built an interactive web-based game that educates users on creating strong, secure passwords. The application provides real-time feedback and clear, visual criteria to help users improve their personal online security habits.",
-      technologies: ["HTML", "CSS", "JavaScript"],
+      title: "Vue Weather Terminal: Retro Console Weather App",
+      icon: "Cloud",
+      description: "Maintained 99/100 Performance and 95/100 Accessibility scores, showcasing expertise in user experience optimization. Created an intuitive console-style interface that balanced a unique retro aesthetic with modern usability.",
+      technologies: ["Vue.js", "CSS3", "Weather API", "Performance Optimization", "UX Design"],
+      liveUrl: "https://auzanps.github.io/vue-weather-project/",
+      githubUrl: "https://github.com/AuZanPs/vue-weather-project"
     },
   ];
 
@@ -140,17 +146,43 @@ const ProjectsSection = () => {
             <div key={project.id} className="glass p-6 rounded-2xl floating-element">
               <div className="flex justify-center mb-6">
                 {project.icon === "Shirt" && <Shirt size={48} className="text-blue-400/70" />}
+                {project.icon === "ChefHat" && <ChefHat size={48} className="text-orange-400/70" />}
+                {project.icon === "Cloud" && <Cloud size={48} className="text-sky-400/70" />}
                 {project.icon === "BrainCircuit" && <BrainCircuit size={48} className="text-purple-400/70" />}
                 {project.icon === "KeyRound" && <KeyRound size={48} className="text-emerald-400/70" />}
               </div>
               <h3 className="text-2xl font-bold text-gradient-accent mb-4 text-center">{project.title}</h3>
               <p className="text-slate-600 mb-6 leading-relaxed">{project.description}</p>
-              <div className="flex flex-wrap gap-2 justify-center">
+              <div className="flex flex-wrap gap-2 justify-center mb-6">
                 {project.technologies.map((tech) => (
                   <span key={tech} className="glass px-3 py-1 rounded-full text-sm text-slate-700">
                     {tech}
                   </span>
                 ))}
+              </div>
+              <div className="flex gap-3 justify-center">
+                {project.liveUrl && (
+                  <a
+                    href={project.liveUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="glass px-4 py-2 rounded-full hover:bg-white/20 transition-all duration-300 hover:scale-105 flex items-center gap-2 group text-sm"
+                  >
+                    <ExternalLink size={16} className="group-hover:scale-110 transition-transform duration-300" />
+                    Live Demo
+                  </a>
+                )}
+                {project.githubUrl && (
+                  <a
+                    href={project.githubUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="glass px-4 py-2 rounded-full hover:bg-white/20 transition-all duration-300 hover:scale-105 flex items-center gap-2 group text-sm"
+                  >
+                    <Code size={16} className="group-hover:scale-110 transition-transform duration-300" />
+                    Code
+                  </a>
+                )}
               </div>
             </div>
           ))}

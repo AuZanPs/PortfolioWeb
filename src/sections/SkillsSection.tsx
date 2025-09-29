@@ -47,39 +47,39 @@ const FloatingSkillsElements = memo(() => {
 });
 
 const SkillsSection = () => {
-  const [activeCategory, setActiveCategory] = useState<"hard" | "tools" | "specializations">("hard")
+  const [activeCategory, setActiveCategory] = useState<"frontend" | "uiux" | "development">("frontend")
 
   const skillCategories = {
-    hard: [
-      { name: "React & Next.js", description: "Building interactive UIs and full-stack apps", icon: <Atom size={24} className="text-blue-500" /> },
+    frontend: [
+      { name: "React & Next.js", description: "Building interactive UIs and full-stack applications", icon: <Atom size={24} className="text-blue-500" /> },
       { name: "TypeScript", description: "Type-safe JavaScript development", icon: <FileCode size={24} className="text-blue-600" /> },
-      { name: "Node.js (Serverless)", description: "Creating backend functions on Vercel", icon: <Circle size={24} className="text-green-600" /> },
-      { name: "Component-Based Architecture", description: "Building scalable and maintainable UIs with React", icon: <Layers size={24} className="text-purple-600" /> },
-      { name: "REST APIs", description: "Designing and consuming APIs", icon: <Link size={24} className="text-indigo-600" /> },
-      { name: "HTML & CSS", description: "Core web markup and styling", icon: <Globe size={24} className="text-orange-600" /> },
-    ],
-    tools: [
-      { name: "Git & GitHub", description: "Version control and collaboration", icon: <BookOpen size={24} className="text-gray-800" /> },
-      { name: "Supabase", description: "Backend-as-a-Service platform", icon: <Flame size={24} className="text-green-500" /> },
-      { name: "Vercel", description: "Deployment and hosting platform", icon: <Rocket size={24} className="text-black" /> },
+      { name: "JavaScript (ES6+)", description: "Modern JavaScript development", icon: <Code size={24} className="text-yellow-600" /> },
+      { name: "HTML5 & CSS3", description: "Semantic markup and modern styling", icon: <Globe size={24} className="text-orange-600" /> },
+      { name: "Responsive Design", description: "Mobile-first, cross-device compatibility", icon: <Layers size={24} className="text-purple-600" /> },
       { name: "Tailwind CSS", description: "Utility-first CSS framework", icon: <Waves size={24} className="text-teal-500" /> },
-      { name: "Vite", description: "Next-generation frontend tooling", icon: <Zap size={24} className="text-yellow-500" /> },
-      { name: "Three.js", description: "3D graphics and animations", icon: <Layers size={24} className="text-purple-500" /> },
     ],
-    specializations: [
-      { name: "AI Integration", description: "Using models like Google Gemini AI", icon: <Bot size={24} className="text-green-600" /> },
-      { name: "Full-Stack Architecture", description: "Designing and building end-to-end applications", icon: <Building size={24} className="text-gray-700" /> },
-      { name: "3D Web Graphics", description: "Creating interactive 3D experiences with Three.js", icon: <Sparkles size={24} className="text-purple-600" /> },
-      { name: "Problem Solving", description: "Breaking down complex challenges", icon: <Puzzle size={24} className="text-blue-600" /> },
-      { name: "Communication", description: "Clear and effective collaboration", icon: <MessageCircle size={24} className="text-green-600" /> },
-      { name: "Adaptability", description: "Learning new technologies quickly", icon: <Sprout size={24} className="text-green-500" /> },
+    uiux: [
+      { name: "Figma", description: "Design systems and prototyping", icon: <Sparkles size={24} className="text-purple-600" /> },
+      { name: "Design Systems", description: "Consistent UI component libraries", icon: <Building size={24} className="text-gray-700" /> },
+      { name: "User Research", description: "Understanding user needs and behaviors", icon: <MessageCircle size={24} className="text-green-600" /> },
+      { name: "Prototyping", description: "Interactive design mockups", icon: <Puzzle size={24} className="text-blue-600" /> },
+      { name: "Design-to-Code", description: "Translating designs into functional interfaces", icon: <Link size={24} className="text-indigo-600" /> },
+      { name: "Web Accessibility", description: "WCAG/ARIA compliance and inclusive design", icon: <Sprout size={24} className="text-green-500" /> },
+    ],
+    development: [
+      { name: "State Management", description: "TanStack Query, Redux, Context API", icon: <Flame size={24} className="text-red-500" /> },
+      { name: "RESTful APIs", description: "API integration and consumption", icon: <Link size={24} className="text-indigo-600" /> },
+      { name: "Node.js", description: "Server-side JavaScript development", icon: <Circle size={24} className="text-green-600" /> },
+      { name: "Supabase & PostgreSQL", description: "Backend-as-a-Service and databases", icon: <Flame size={24} className="text-green-500" /> },
+      { name: "Git & Version Control", description: "Collaborative development workflows", icon: <BookOpen size={24} className="text-gray-800" /> },
+      { name: "Testing & QA", description: "Jest, React Testing Library, Agile/Scrum", icon: <Zap size={24} className="text-yellow-500" /> },
     ],
   }
 
   const categories = [
-    { key: "hard" as const, label: "Hard Skills", icon: Code, color: "from-blue-500/10 to-purple-500/10" },
-    { key: "tools" as const, label: "Tools", icon: Wrench, color: "from-blue-500/10 to-purple-500/10" },
-    { key: "specializations" as const, label: "Specializations", icon: Star, color: "from-blue-500/10 to-purple-500/10" },
+    { key: "frontend" as const, label: "Frontend Development", icon: Code, color: "from-blue-500/10 to-purple-500/10" },
+    { key: "uiux" as const, label: "UI/UX Design", icon: Star, color: "from-purple-500/10 to-pink-500/10" },
+    { key: "development" as const, label: "Development Tools", icon: Wrench, color: "from-green-500/10 to-blue-500/10" },
   ]
 
   return (
@@ -154,10 +154,10 @@ const SkillsSection = () => {
         <div className="text-center mt-12">
           <div className="glass p-6 rounded-2xl inline-block">
             <p className="text-slate-600">
-              {activeCategory === "hard" &&
-                "My core programming languages, frameworks, and technical concepts."}
-              {activeCategory === "tools" && "Essential tools and platforms that power my development workflow."}
-              {activeCategory === "specializations" && "My key areas of expertise, combining advanced technical skills with professional experience."}
+              {activeCategory === "frontend" &&
+                "Modern React and TypeScript development with responsive design and performance optimization."}
+              {activeCategory === "uiux" && "Design systems, user research, and accessibility-focused interface development."}
+              {activeCategory === "development" && "Full-stack development tools, testing frameworks, and collaborative workflows."}
             </p>
           </div>
         </div>
