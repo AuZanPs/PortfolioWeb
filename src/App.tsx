@@ -4,7 +4,6 @@ import { Suspense, lazy } from 'react';
 import Navbar from './components/Navbar';
 import Footer from './components/Footer';
 import HeroSection from './sections/HeroSection';
-import PerformanceMonitor from './components/PerformanceMonitor';
 
 // Lazy load sections for better performance
 const AboutSection = lazy(() => import('./sections/AboutSection'));
@@ -24,24 +23,8 @@ const SectionFallback = () => (
 );
 
 function App() {
-  // Temporarily disable preloader to isolate issues
-  // useEffect(() => {
-  //   const initPreloader = async () => {
-  //     try {
-  //       const { initializePerformanceOptimizations } = await import('./utils/preloader');
-  //       initializePerformanceOptimizations();
-  //     } catch (error) {
-  //       console.warn('Preloader initialization failed:', error);
-  //     }
-  //   };
-    
-  //   const timer = setTimeout(initPreloader, 500);
-  //   return () => clearTimeout(timer);
-  // }, []);
-
   return (
     <div className="bg-white text-gray-900">
-      <PerformanceMonitor />
       <Navbar />
       <HeroSection />
       <Suspense fallback={<SectionFallback />}>

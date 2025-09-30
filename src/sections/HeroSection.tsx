@@ -1,23 +1,8 @@
 // src/sections/HeroSection.tsx
 
-import { useCallback } from "react";
 import { ArrowDown, Code, Download } from "lucide-react";
 
-
-
 const HeroSection = () => {
-  // The smooth scroll handler function, copied from the Navbar
-  const handleSmoothScroll = useCallback((e: React.MouseEvent<HTMLAnchorElement>, href: string) => {
-    e.preventDefault(); // Prevent the default anchor jump
-    const targetId = href.replace("#", "");
-    const targetElement = document.getElementById(targetId);
-    if (targetElement) {
-      targetElement.scrollIntoView({
-        behavior: "smooth",
-        block: "start",
-      });
-    }
-  }, []);
 
   return (
     <section id="home" className="min-h-screen flex items-center justify-center relative overflow-hidden pt-20 bg-white">
@@ -27,34 +12,33 @@ const HeroSection = () => {
 
       <div className="container-custom relative z-10">
         <div className="text-center">
-          <div className="bg-white p-8 md:p-12 rounded-3xl shadow-lg border border-gray-200 max-w-4xl mx-auto">
-            <h1 className="text-4xl md:text-6xl lg:text-7xl font-bold text-gradient mb-8">
+          <div className="bg-white p-6 sm:p-8 md:p-12 rounded-3xl shadow-lg border border-gray-200 max-w-4xl mx-auto">
+            <h1 className="text-3xl sm:text-4xl md:text-6xl lg:text-7xl font-bold text-gradient mb-6 sm:mb-8">
               Muhammad Auzan
               <span className="block text-gradient-accent">Putra Siregar</span>
             </h1>
 
-            <p className="text-lg md:text-xl text-gray-600 mb-8 max-w-2xl mx-auto leading-relaxed">
+            <p className="text-base sm:text-lg md:text-xl text-gray-600 mb-6 sm:mb-8 max-w-2xl mx-auto leading-relaxed px-2">
               Building intuitive digital experiences. I'm a developer who transforms concepts into fully deployed applications using modern web technologies.
             </p>
 
-            <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
+            <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center items-center px-2">
               <a
                 href="#projects"
-                onClick={(e) => handleSmoothScroll(e, "#projects")}
-                className="bg-white px-8 py-4 rounded-full border-2 hover:bg-gray-50 transition-all duration-300 hover:scale-105 flex items-center gap-2 group shadow-md"
+                className="w-full sm:w-auto bg-white px-6 sm:px-8 py-3 sm:py-4 rounded-full border-2 hover:bg-gray-50 transition-all duration-300 hover:scale-105 flex items-center justify-center gap-2 group shadow-md text-sm sm:text-base"
                 style={{borderColor: '#535C91', color: '#070F2B'}}
               >
-                <Code size={20} className="group-hover:scale-110 transition-transform duration-300" />
+                <Code size={18} className="group-hover:scale-110 transition-transform duration-300" />
                 View My Work
               </a>
               <a
-                href="/Auzan_Putra_CV.pdf"
-                download
-                className="px-8 py-4 rounded-full transition-all duration-300 hover:scale-105 flex items-center gap-2 group shadow-md"
+                href="/Auzan Putra Siregar Resume 2025.pdf"
+                download="Auzan_Putra_Siregar_Resume_2025.pdf"
+                className="w-full sm:w-auto px-6 sm:px-8 py-3 sm:py-4 rounded-full transition-all duration-300 hover:scale-105 flex items-center justify-center gap-2 group shadow-md text-sm sm:text-base"
                 style={{backgroundColor: '#535C91', color: 'white'}}
               >
-                <Download size={20} className="group-hover:scale-110 transition-transform duration-300" />
-                Download CV
+                <Download size={18} className="group-hover:scale-110 transition-transform duration-300" />
+                Download Resume
               </a>
             </div>
           </div>
