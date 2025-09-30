@@ -27,21 +27,23 @@ const Footer = () => {
   const currentYear = useMemo(() => new Date().getFullYear(), []);
 
   return (
-    <footer className="glass border-t border-white/20 mt-20 relative overflow-hidden">
-      {/* Optimized Background Elements - Removed heavy blur effects */}
-      <div className="absolute inset-0 bg-gradient-accent opacity-20"></div>
-      <div className="absolute top-0 left-1/4 w-32 h-32 bg-blue-500/5 rounded-full blur-xl"></div>
-      <div className="absolute bottom-0 right-1/4 w-40 h-40 bg-purple-500/5 rounded-full blur-xl"></div>
+    <footer className="mt-20 relative overflow-hidden" style={{
+      borderTop: '1px solid #9290C3',
+      background: 'rgba(255, 255, 255, 0.98)',
+      boxShadow: '0 -4px 6px -1px rgba(7, 15, 43, 0.1)'
+    }}>
+      {/* Subtle Background Elements */}
+      <div className="absolute inset-0 bg-gradient-accent opacity-30"></div>
 
       <div className="container-custom py-16 relative z-10">
         {/* Main Footer Grid */}
         <div className="grid lg:grid-cols-4 md:grid-cols-2 gap-8 mb-12">
-          {/* Brand Section - Removed floating-element for performance */}
+          {/* Brand Section - Clean minimalistic design */}
           <div className="lg:col-span-2">
-            <div className="glass p-6 rounded-2xl">
+            <div className="bg-white p-6 rounded-2xl shadow-md border border-gray-200">
               <h3 className="text-3xl font-bold text-gradient-accent mb-4">Frontend Developer</h3>
-              <p className="text-slate-600 mb-6 leading-relaxed">
-                Crafting digital experiences from concept to code.
+              <p className="mb-6 leading-relaxed text-gray-600">
+                Transforming ideas into exceptional digital experiences.
               </p>
               <div className="flex space-x-4">
                 {socialLinks.map((link) => (
@@ -50,7 +52,8 @@ const Footer = () => {
                     href={link.href}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className={`glass p-3 rounded-full hover:bg-white/20 transition-colors duration-200 ${link.color}`}
+                    className="bg-white p-3 rounded-full hover:bg-gray-50 transition-colors duration-200 shadow-sm border border-gray-200"
+                    style={{color: '#535C91'}}
                     aria-label={link.label}
                   >
                     <link.icon size={20} />
@@ -60,18 +63,18 @@ const Footer = () => {
             </div>
           </div>
 
-          {/* Quick Links - Optimized transitions */}
+          {/* Quick Links - Clean design */}
           <div>
-            <div className="glass p-6 rounded-2xl h-full">
+            <div className="bg-white p-6 rounded-2xl h-full shadow-md border border-gray-200">
               <h4 className="text-lg font-bold text-gradient mb-4">Quick Links</h4>
               <ul className="space-y-3">
                 {quickLinks.map((link) => (
                   <li key={link.name}>
                     <a
                       href={link.href}
-                      className="text-slate-600 hover:text-blue-600 transition-colors duration-200 flex items-center gap-2 group"
+                      className="transition-colors duration-200 flex items-center gap-2 group text-gray-600 hover:text-gray-900"
                     >
-                      <div className="w-1 h-1 bg-slate-400 rounded-full group-hover:bg-blue-600 transition-colors duration-200"></div>
+                      <div className="w-1 h-1 rounded-full transition-colors duration-200" style={{backgroundColor: '#535C91'}}></div>
                       {link.name}
                     </a>
                   </li>
@@ -80,39 +83,39 @@ const Footer = () => {
             </div>
           </div>
 
-          {/* Contact Info - Removed floating animation */}
+          {/* Contact Info - Clean design */}
           <div>
-            <div className="glass p-6 rounded-2xl h-full">
+            <div className="bg-white p-6 rounded-2xl h-full shadow-md border border-gray-200">
               <h4 className="text-lg font-bold text-gradient mb-4">Get In Touch</h4>
               <div className="space-y-3">
-                <div className="text-slate-600">
-                  <div className="font-medium text-slate-800">Email</div>
-                  <div className="text-sm">mauzanps@gmail.com</div>
+                <div>
+                  <div className="font-medium" style={{color: '#1B1A55'}}>Email</div>
+                  <div className="text-sm text-gray-600">mauzanps@gmail.com</div>
                 </div>
-                <div className="text-slate-600">
-                  <div className="font-medium text-slate-800">Location</div>
-                  <div className="text-sm">Jakarta</div>
+                <div>
+                  <div className="font-medium" style={{color: '#1B1A55'}}>Location</div>
+                  <div className="text-sm text-gray-600">Jakarta, Indonesia</div>
                 </div>
               </div>
             </div>
           </div>
         </div>
 
-        {/* Optimized Stats Section - Removed floating animations */}
+        {/* Clean Stats Section */}
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-12">
           {stats.map((stat) => (
-            <div key={stat.label} className="glass p-4 rounded-xl text-center hover:bg-white/5 transition-colors duration-200">
-              <stat.icon size={24} className="mx-auto mb-2 text-blue-600" />
+            <div key={stat.label} className="bg-white p-4 rounded-xl text-center hover:bg-gray-50 transition-colors duration-200 shadow-md border border-gray-200">
+              <stat.icon size={24} className="mx-auto mb-2" style={{color: '#535C91'}} />
               <div className="text-xl font-bold text-gradient-accent">{stat.value}</div>
-              <div className="text-xs text-slate-600">{stat.label}</div>
+              <div className="text-xs text-gray-500">{stat.label}</div>
             </div>
           ))}
         </div>
 
         {/* Bottom Section */}
-        <div className="border-t border-white/20 pt-8">
+        <div className="pt-8" style={{borderTop: '1px solid #9290C3'}}>
           <div className="flex flex-col md:flex-row justify-between items-center gap-4">
-            <div className="text-slate-500 text-sm">
+            <div className="text-sm text-gray-500">
               © {currentYear} Frontend Portfolio. All rights reserved.
             </div>
           </div>

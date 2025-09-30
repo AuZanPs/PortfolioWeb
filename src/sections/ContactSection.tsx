@@ -1,193 +1,228 @@
 // src/sections/ContactSection.tsx
 
-import { useState, useRef, memo } from "react";
+import { useState } from "react";
 import type React from "react";
-import { useFrame } from "@react-three/fiber";
-import { Sphere, Box, Octahedron } from "@react-three/drei";
 import emailjs from '@emailjs/browser'; // Import EmailJS
 import { Send, Mail, MapPin, CheckCircle, AlertTriangle } from "lucide-react";
-import type * as THREE from "three";
-import OptimizedCanvas from "../components/OptimizedCanvas";
-import { useThrottledFrame } from "../utils/performance";
 
 // Define the type for our submission status
 type SubmissionStatus = "idle" | "sending" | "success" | "error";
 
-// 3D Background for Contact
-const FloatingContactElements = memo(() => {
-  const sphere1Ref = useRef<THREE.Mesh>(null);
-  const sphere2Ref = useRef<THREE.Mesh>(null);
-  const cubeRef = useRef<THREE.Mesh>(null);
-  const octaRef = useRef<THREE.Mesh>(null);
-  
-  const throttledFrame = useThrottledFrame((state) => {
-    if (sphere1Ref.current) {
-      sphere1Ref.current.rotation.x = state.clock.elapsedTime * 0.1;
-      sphere1Ref.current.position.y = 2 + Math.sin(state.clock.elapsedTime * 0.7) * 0.3;
-    }
-    if (sphere2Ref.current) {
-      sphere2Ref.current.rotation.z = state.clock.elapsedTime * 0.15;
-      sphere2Ref.current.position.y = -1 + Math.cos(state.clock.elapsedTime * 0.9) * 0.4;
-    }
-    if (cubeRef.current) {
-      cubeRef.current.rotation.y = state.clock.elapsedTime * 0.2;
-      cubeRef.current.position.y = 1 + Math.sin(state.clock.elapsedTime * 1.1 + 2) * 0.2;
-    }
-    if (octaRef.current) {
-      octaRef.current.rotation.x = state.clock.elapsedTime * 0.18;
-      octaRef.current.position.y = -2 + Math.cos(state.clock.elapsedTime * 0.6) * 0.25;
-    }
-  }, 20);
-
-  useFrame(throttledFrame);
-
-  return (
-    <>
-      <Sphere ref={sphere1Ref} position={[-4, 2, -2]} args={[0.5, 16, 16]}>
-        <meshStandardMaterial color="#60a5fa" wireframe transparent opacity={0.4} />
-      </Sphere>
-      <Sphere ref={sphere2Ref} position={[4, -1, -3]} args={[0.6, 16, 16]}>
-        <meshStandardMaterial color="#c084fc" wireframe transparent opacity={0.3} />
-      </Sphere>
-      <Box ref={cubeRef} position={[-3, 1, -1]} args={[0.4, 0.4, 0.4]}>
-        <meshStandardMaterial color="#f87171" wireframe transparent opacity={0.35} />
-      </Box>
-      <Octahedron ref={octaRef} position={[3, -2, -2]} args={[0.4]}>
-        <meshStandardMaterial color="#60a5fa" wireframe transparent opacity={0.3} />
-      </Octahedron>
-      {/* Removed static box for better performance */}
-    </>
-  );
-});
-
 const ContactSection = () => {
-  const form = useRef<HTMLFormElement>(null);
-  const [formData, setFormData] = useState({ name: "", email: "", message: "" });
-  const [submissionStatus, setSubmissionStatus] = useState<SubmissionStatus>("idle");
-
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-
-    if (!form.current) {
-      return; // Should not happen
-    }
-
-    setSubmissionStatus("sending");
-
-    // Your EmailJS credentials
-    const serviceID = "service_icykdfd";
-    const templateID = "template_7x57kvj";
-    const publicKey = "UPE6WPe1Ci08_EqLJ";
-
-    emailjs.sendForm(serviceID, templateID, form.current, publicKey)
-      .then(
-        (result) => {
-          console.log("SUCCESS!", result.text);
-          setSubmissionStatus("success");
-          setFormData({ name: "", email: "", message: "" }); // Clear the form
-          setTimeout(() => setSubmissionStatus("idle"), 5000); // Reset status after 5 seconds
-        },
-        (error) => {
-          console.log("FAILED...", error.text);
-          setSubmissionStatus("error");
-          setTimeout(() => setSubmissionStatus("idle"), 5000); // Reset status after 5 seconds
-        }
-      );
-  };
+  const [formData, setFormData] = useState({
+    name: "",
+    email: "",
+    message: ""
+  });
+  const [status, setStatus] = useState<SubmissionStatus>("idle");
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
+    const { name, value } = e.target;
+    setFormData(prev => ({
+      ...prev,
+      [name]: value
+    }));
   };
 
-  const contactInfo = [
-    { icon: Mail, title: "Email", value: "mauzanps@gmail.com", description: "Send me an email anytime!" },
-    { icon: MapPin, title: "Location", value: "Jakarta, Indonesia", description: "Available for remote work and internships" },
-  ];
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setStatus("sending");
+
+    try {
+      // EmailJS configuration - these should be replaced with your actual values
+      const templateParams = {
+        from_name: formData.name,
+        from_email: formData.email,
+        message: formData.message,
+        to_name: "Auzan Putra Siregar",
+      };
+
+      await emailjs.send(
+        "service_ov0h7jp", // Replace with your EmailJS service ID
+        "template_lqzfokn", // Replace with your EmailJS template ID
+        templateParams,
+        "D4sC4l7-Ev7oNf7FR" // Replace with your EmailJS public key
+      );
+
+      setStatus("success");
+      setFormData({ name: "", email: "", message: "" });
+    } catch (error) {
+      console.error("Email sending failed:", error);
+      setStatus("error");
+    }
+
+    // Reset status after 5 seconds
+    setTimeout(() => setStatus("idle"), 5000);
+  };
 
   return (
-    <section id="contact" className="py-20 relative overflow-hidden">
-      {/* 3D Background */}
-      <OptimizedCanvas 
-        className="absolute inset-0 opacity-25 -z-10"
-        camera={{ position: [0, 0, 8], fov: 50 }}
-        dpr={[1, 1.5]}
-      >
-        <ambientLight intensity={0.4} />
-        <directionalLight position={[5, 5, 5]} intensity={0.6} />
-        <FloatingContactElements />
-      </OptimizedCanvas>
-
-      {/* Background gradients */}
-      <div className="absolute top-1/4 left-1/4 w-64 h-64 bg-blue-500/10 rounded-full blur-3xl"></div>
-      <div className="absolute bottom-1/4 right-1/4 w-80 h-80 bg-purple-500/10 rounded-full blur-3xl"></div>
-
+    <section id="contact" className="py-20 relative" style={{backgroundColor: 'white'}}>
       <div className="container-custom py-16 relative z-10">
         <div className="text-center mb-12">
-          <h2 className="text-4xl md:text-5xl font-bold text-gradient mb-4">Get In Touch</h2>
-          <div className="w-24 h-1 bg-gradient-to-r from-blue-500 to-purple-600 mx-auto mb-4"></div>
-          <p className="text-lg text-slate-600 leading-relaxed">
-            Have a project in mind or just want to say hello? Drop me a message.
+          <h2 className="text-4xl md:text-5xl font-bold mb-4" style={{color: '#070F2B'}}>Get In Touch</h2>
+          <div className="w-24 h-1 mx-auto mb-6" style={{background: 'linear-gradient(to right, #1B1A55, #535C91)'}}></div>
+          <p className="max-w-2xl mx-auto" style={{color: '#535C91'}}>
+            Have a project in mind? Let's connect and discuss how we can bring your ideas to life.
           </p>
         </div>
 
-        <div className="grid lg:grid-cols-2 gap-8">
-          <div className="glass p-8 rounded-2xl floating-element h-full">
-            <h3 className="text-2xl font-bold text-gradient-accent mb-6">Send Message</h3>
+        <div className="grid lg:grid-cols-2 gap-12 max-w-6xl mx-auto">
+          {/* Contact Form */}
+          <div className="p-8 rounded-2xl" style={{backgroundColor: 'white', boxShadow: '0 4px 6px -1px rgba(7, 15, 43, 0.1), 0 2px 4px -1px rgba(7, 15, 43, 0.06)', border: '1px solid rgba(83, 92, 145, 0.1)'}}>
+            <h3 className="text-2xl font-bold mb-6" style={{color: '#070F2B'}}>Send Me a Message</h3>
             
-            {/* Add the ref to the form element */}
-            <form ref={form} onSubmit={handleSubmit} className="space-y-6">
+            <form onSubmit={handleSubmit} className="space-y-6">
               <div>
-                <label htmlFor="name" className="block text-slate-800 font-medium mb-2">Name</label>
-                <input type="text" id="name" name="name" value={formData.name} onChange={handleChange} className="w-full glass p-3 rounded-xl focus:ring-2 focus:ring-blue-500 transition-all text-slate-800 placeholder-slate-500" placeholder="Your Name" required/>
+                <label htmlFor="name" className="block text-sm font-medium mb-2" style={{color: '#070F2B'}}>
+                  Full Name
+                </label>
+                <input
+                  type="text"
+                  id="name"
+                  name="name"
+                  value={formData.name}
+                  onChange={handleChange}
+                  required
+                  className="w-full px-4 py-3 rounded-xl border transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  style={{
+                    backgroundColor: 'white',
+                    borderColor: '#535C91',
+                    color: '#070F2B'
+                  }}
+                  placeholder="Your full name"
+                />
               </div>
+
               <div>
-                <label htmlFor="email" className="block text-slate-800 font-medium mb-2">Email</label>
-                <input type="email" id="email" name="email" value={formData.email} onChange={handleChange} className="w-full glass p-3 rounded-xl focus:ring-2 focus:ring-blue-500 transition-all text-slate-800 placeholder-slate-500" placeholder="your.email@example.com" required/>
+                <label htmlFor="email" className="block text-sm font-medium mb-2" style={{color: '#070F2B'}}>
+                  Email Address
+                </label>
+                <input
+                  type="email"
+                  id="email"
+                  name="email"
+                  value={formData.email}
+                  onChange={handleChange}
+                  required
+                  className="w-full px-4 py-3 rounded-xl border transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  style={{
+                    backgroundColor: 'white',
+                    borderColor: '#535C91',
+                    color: '#070F2B'
+                  }}
+                  placeholder="your.email@example.com"
+                />
               </div>
+
               <div>
-                <label htmlFor="message" className="block text-slate-800 font-medium mb-2">Message</label>
-                <textarea id="message" name="message" value={formData.message} onChange={handleChange} rows={5} className="w-full glass p-3 rounded-xl resize-none focus:ring-2 focus:ring-blue-500 transition-all text-slate-800 placeholder-slate-500" placeholder="Tell me about your project..." required/>
+                <label htmlFor="message" className="block text-sm font-medium mb-2" style={{color: '#070F2B'}}>
+                  Message
+                </label>
+                <textarea
+                  id="message"
+                  name="message"
+                  value={formData.message}
+                  onChange={handleChange}
+                  required
+                  rows={6}
+                  className="w-full px-4 py-3 rounded-xl border transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-blue-500 resize-none"
+                  style={{
+                    backgroundColor: 'white',
+                    borderColor: '#535C91',
+                    color: '#070F2B'
+                  }}
+                  placeholder="Tell me about your project..."
+                />
               </div>
-              
+
               <button
                 type="submit"
-                className="w-full glass p-4 rounded-xl font-semibold hover:bg-white/50 transition-all duration-300 flex items-center justify-center gap-2 floating-element disabled:opacity-70 disabled:cursor-not-allowed"
-                disabled={submissionStatus === 'sending'}
+                disabled={status === "sending"}
+                className="w-full py-4 px-6 rounded-xl font-semibold transition-all duration-300 flex items-center justify-center gap-2 hover:scale-105 disabled:opacity-50 disabled:cursor-not-allowed"
+                style={{
+                  backgroundColor: status === "sending" ? '#535C91' : '#070F2B',
+                  color: 'white'
+                }}
               >
-                {submissionStatus === 'sending' ? 'Sending...' : <><Send size={18} /> Send Message</>}
+                {status === "sending" ? (
+                  <>
+                    <div className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin" />
+                    Sending...
+                  </>
+                ) : (
+                  <>
+                    <Send size={20} />
+                    Send Message
+                  </>
+                )}
               </button>
 
-              {/* Submission Status Messages */}
-              {submissionStatus === 'success' && (
-                <div className="flex items-center gap-2 text-green-700 font-medium p-3 bg-green-100 rounded-lg">
+              {/* Status Messages */}
+              {status === "success" && (
+                <div className="flex items-center gap-2 text-green-600 bg-green-50 p-4 rounded-xl">
                   <CheckCircle size={20} />
-                  <span>Message sent successfully! Thank you.</span>
+                  <span>Message sent successfully! I'll get back to you soon.</span>
                 </div>
               )}
-              {submissionStatus === 'error' && (
-                <div className="flex items-center gap-2 text-red-700 font-medium p-3 bg-red-100 rounded-lg">
+
+              {status === "error" && (
+                <div className="flex items-center gap-2 text-red-600 bg-red-50 p-4 rounded-xl">
                   <AlertTriangle size={20} />
-                  <span>Failed to send message. Please try again later.</span>
+                  <span>Failed to send message. Please try again.</span>
                 </div>
               )}
             </form>
           </div>
 
-          <div className="space-y-6">
-            {contactInfo.map((info) => (
-              <div key={info.title} className="glass p-6 rounded-2xl floating-element">
+          {/* Contact Information */}
+          <div className="space-y-8">
+            <div className="p-8 rounded-2xl" style={{backgroundColor: 'white', boxShadow: '0 4px 6px -1px rgba(7, 15, 43, 0.1), 0 2px 4px -1px rgba(7, 15, 43, 0.06)', border: '1px solid rgba(83, 92, 145, 0.1)'}}>
+              <h3 className="text-2xl font-bold mb-6" style={{color: '#070F2B'}}>Let's Connect</h3>
+              
+              <div className="space-y-6">
                 <div className="flex items-start gap-4">
-                  <div className="glass p-3 rounded-xl">
-                    <info.icon size={24} className="text-blue-600" />
+                  <div className="p-3 rounded-xl" style={{backgroundColor: '#9290C3'}}>
+                    <Mail size={24} style={{color: 'white'}} />
                   </div>
                   <div>
-                    <h4 className="font-bold text-slate-800 mb-1">{info.title}</h4>
-                    <p className="text-slate-600 font-medium mb-1">{info.value}</p>
-                    <p className="text-slate-500 text-sm">{info.description}</p>
+                    <h4 className="font-semibold mb-1" style={{color: '#070F2B'}}>Email</h4>
+                    <p style={{color: '#535C91'}}>mauzanps@gmail.com</p>
+                  </div>
+                </div>
+
+                <div className="flex items-start gap-4">
+                  <div className="p-3 rounded-xl" style={{backgroundColor: '#9290C3'}}>
+                    <MapPin size={24} style={{color: 'white'}} />
+                  </div>
+                  <div>
+                    <h4 className="font-semibold mb-1" style={{color: '#070F2B'}}>Location</h4>
+                    <p style={{color: '#535C91'}}>Jakarta, Indonesia</p>
                   </div>
                 </div>
               </div>
-            ))}
+            </div>
+
+            <div className="p-8 rounded-2xl" style={{backgroundColor: 'white', boxShadow: '0 4px 6px -1px rgba(7, 15, 43, 0.1), 0 2px 4px -1px rgba(7, 15, 43, 0.06)', border: '1px solid rgba(83, 92, 145, 0.1)'}}>
+              <h3 className="text-xl font-bold mb-4" style={{color: '#070F2B'}}>Why Work With Me?</h3>
+              <ul className="space-y-3">
+                <li className="flex items-start gap-3">
+                  <CheckCircle size={20} style={{color: '#1B1A55'}} className="mt-0.5 flex-shrink-0" />
+                  <span style={{color: '#535C91'}}>Professional communication with quick response times</span>
+                </li>
+                <li className="flex items-start gap-3">
+                  <CheckCircle size={20} style={{color: '#1B1A55'}} className="mt-0.5 flex-shrink-0" />
+                  <span style={{color: '#535C91'}}>Modern, responsive designs built with clean code</span>
+                </li>
+                <li className="flex items-start gap-3">
+                  <CheckCircle size={20} style={{color: '#1B1A55'}} className="mt-0.5 flex-shrink-0" />
+                  <span style={{color: '#535C91'}}>Collaborative approach that brings your vision to life</span>
+                </li>
+                <li className="flex items-start gap-3">
+                  <CheckCircle size={20} style={{color: '#1B1A55'}} className="mt-0.5 flex-shrink-0" />
+                  <span style={{color: '#535C91'}}>Ongoing support and maintenance after project completion</span>
+                </li>
+              </ul>
+            </div>
           </div>
         </div>
       </div>

@@ -40,7 +40,7 @@ function App() {
   // }, []);
 
   return (
-    <div className="bg-gray-50 text-gray-900">
+    <div className="bg-white text-gray-900">
       <PerformanceMonitor />
       <Navbar />
       <HeroSection />
