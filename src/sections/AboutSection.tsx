@@ -26,7 +26,7 @@ const AboutSection = () => {
           <div className="bg-white p-5 sm:p-6 md:p-8 rounded-2xl h-full shadow-lg border border-gray-200">
             <h3 className="text-xl sm:text-2xl font-bold text-gradient-accent mb-3 sm:mb-4">Professional Summary</h3>
             <p className="text-sm sm:text-base text-gray-600 leading-relaxed">
-              Frontend Developer passionate about creating exceptional user experiences through modern React and TypeScript development. I specialize in translating design concepts into high-performance, accessible web applications with innovative features like AI-powered recommendations. With proven expertise in optimization—achieving 97.5/100 PageSpeed scores and implementing WCAG-compliant interfaces—I'm seeking a Frontend Developer internship with UI/UX growth opportunities at a leading Indonesian tech company.
+              Frontend Developer with production experience building web applications for corporate clients. Delivered cybersecurity training platform for PLN Icon Plus serving 500+ employees in 10-person team. Skilled in modern JavaScript frameworks (React, Vue), RESTful API integration, and creating accessible user interfaces. Strong focus on clean code, responsive design, and iterative development with client collaboration.
             </p>
           </div>
 

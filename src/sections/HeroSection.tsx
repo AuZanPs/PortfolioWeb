@@ -32,8 +32,8 @@ const HeroSection = () => {
                 View My Work
               </a>
               <a
-                href="/Auzan Putra Siregar Resume 2025.pdf"
-                download="Auzan_Putra_Siregar_Resume_2025.pdf"
+                href="/Auzan_Siregar_Frontend_Developer_2025.pdf"
+                download="Auzan_Siregar_Frontend_Developer_2025.pdf"
                 className="w-full sm:w-auto px-6 sm:px-8 py-3 sm:py-4 rounded-full transition-all duration-300 hover:scale-105 flex items-center justify-center gap-2 group shadow-md text-sm sm:text-base"
                 style={{backgroundColor: '#535C91', color: 'white'}}
               >
