@@ -4,28 +4,28 @@ import { Users, MonitorSmartphone, Gamepad2 } from "lucide-react";
 
 const ExperienceSection = () => {
   const experience = {
-    title: "Project Lead – PLN Icon Plus",
+    title: "PLN Icon Plus",
     role: "January 2025 – April 2025",
-    summary: "Led development of \"The Cyber Game,\" a web-based cybersecurity training application for PLN Icon Plus, collaborating within a cross-functional team environment.",
+    summary: "Led project coordination and frontend development for cybersecurity training platform in 10-person team, managing client communication and building four interactive game levels serving 500+ PLN Icon Plus employees.",
     contributions: [
       {
         icon: "Users",
         title: "Team Collaboration",
-        description: "Collaborated with a 10-person cross-functional team over 4 months to deliver \"The Cyber Game,\" a comprehensive cybersecurity training platform for PLN Icon Plus."
+        description: "Coordinated team collaboration and participated in client meetings throughout 4-month iterative development, incorporating feedback on accessibility and game progression mechanics while coordinating Unity WebGL integration."
       },
       {
         icon: "MonitorSmartphone",
-        title: "Accessibility & UI/UX",
-        description: "Engineered user-friendly, ARIA-compliant interface components, achieving 100% accessibility compliance for the corporate training environment."
+        title: "Frontend Development",
+        description: "Developed HTML/CSS/JavaScript interface integrated with Golang RESTful API and MySQL database; delivered security-tested platform resistant to SQL injection and XSS attacks."
       },
       {
         icon: "Gamepad2",
-        title: "Client Coordination",
-        description: "Coordinated team responses to client feedback, ensuring UI/UX improvements aligned with user needs and were delivered within the project timeline."
+        title: "Interactive Game Levels",
+        description: "Built four interactive game levels serving 500+ PLN Icon Plus employees, ensuring engaging user experience and effective cybersecurity training delivery."
       }
     ],
-    technologies: ["React", "TypeScript", "Golang", "RESTful API", "ARIA", "Responsive Design"],
-    additionalInfo: "Successfully integrated a responsive frontend with Golang RESTful API, delivering secure authentication and session management features for 500+ potential corporate users."
+    technologies: ["HTML5", "CSS3", "JavaScript", "MySQL", "Golang (API integration)", "Unity WebGL", "Git"],
+    additionalInfo: "Successfully delivered a comprehensive cybersecurity training platform with robust security measures, serving 500+ corporate users while maintaining high standards for accessibility and user engagement."
   };
 
   return (
